@@ -4,7 +4,16 @@
     <title>Test01</title>
     <url>/2022/11/08/Test01/</url>
     <content><![CDATA[<p><a href="http://www.bilibili.com/">跳转到B站</a></p>
-<h1 id="测试的文章"><a href="#测试的文章" class="headerlink" title="测试的文章"></a>测试的文章</h1><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6>]]></content>
+<h1 id="测试的文章"><a href="#测试的文章" class="headerlink" title="测试的文章"></a>测试的文章</h1><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><hr>
+<p><strong>BP算法</strong></p>
+<p>训练集    $\left\{\left(x^{(1)}, y^{(1)}\right), \ldots,\left(x^{(m)}, y^{(m)}\right)\right\}$</p>
+<p>设    $\Delta_{i j}^{(l)}=0(\text { for all } l, i, j)$</p>
+<p>$\begin{array}{l}{\text {For } i=1 \text { to } m}\end{array}$</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}{\text { Set } a^{(1)}=x^{(i)}} \\ {\text { Perform forward propagation to compute } a^{(l)} \text { for } l=2,3, \ldots, L} \\ {\text { Using } y^{(i)}, \text { compute } \delta^{(L)}=a^{(L)}-y^{(i)}} \\ {\text { Compute } \delta^{(L-1)}, \delta^{(l+1)}, \ldots, \delta^{(2)}} \\ {\Delta_{i j}^{(l)} :=\Delta_{i j}^{(l)}+a_{j}^{(l)} \delta_{i}^{(l+1)}}\end{array}</script><p>$\begin{array}{l}{D_{i j}^{(l)} :=\frac{1}{m} \Delta_{i j}^{(l)}+\lambda \Theta_{i j}^{(l)}} &amp; {\text { if } j \neq 0} \\ {D_{i j}^{(l)} :=\frac{1}{m} \Delta_{i j}^{(l)}} &amp; {\text { if } j=0}\end{array}$</p>
+<p>其中    $\frac{\partial}{\partial \Theta_{i j}^{(l)}} J(\Theta)=D_{i j}^{(l)}$</p>
+<hr>
+]]></content>
       <categories>
         <category>基础算法</category>
         <category>排序</category>
@@ -22,21 +31,17 @@
     <url>/2022/11/07/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
   <entry>
-    <title>朴素dijkstra算法</title>
+    <title>朴素$dijkstra$算法</title>
     <url>/2022/11/08/%E6%9C%B4%E7%B4%A0dijkstra%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="朴素-Dijkstra-算法"><a href="#朴素-Dijkstra-算法" class="headerlink" title="朴素 Dijkstra 算法"></a>朴素 Dijkstra 算法</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><ul>
 <li>O(n^2)</li>
@@ -48,7 +53,6 @@
 </ul>
 <h3 id="如图所示："><a href="#如图所示：" class="headerlink" title="如图所示："></a>如图所示：</h3><p><img src="https://img-blog.csdnimg.cn/0921267586bb431fab5bc2e42a854077.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm0X-aYjg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="朴素Dijkstra算法"></p>
 <h3 id="模板代码如下："><a href="#模板代码如下：" class="headerlink" title="模板代码如下："></a>模板代码如下：</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> g[N][N];  <span class="comment">// 邻接矩阵，存储每条边</span></span><br><span class="line"><span class="type">int</span> dist[N];  <span class="comment">// 存储1号点到每个点的最短距离</span></span><br><span class="line"><span class="type">bool</span> st[N];   <span class="comment">// 存储每个点的最短路是否已经确定</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 求1号点到n号点的最短路，如果不存在则返回-1</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijkstra</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 先选中一个点，剩余 n - 1 个点，迭代 n - 1 次</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = <span class="number">-1</span>;     <span class="comment">// 在还未确定最短路的点中，寻找距离最小的点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            <span class="keyword">if</span> (!st[j] &amp;&amp; (t == <span class="number">-1</span> || dist[t] &gt; dist[j]))</span><br><span class="line">                t = j;</span><br><span class="line"> </span><br><span class="line">        st[t] = <span class="literal">true</span>;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 用t更新其他点的距离</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            dist[j] = <span class="built_in">min</span>(dist[j], dist[t] + g[t][j]);</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (dist[n] == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> dist[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="具体证明："><a href="#具体证明：" class="headerlink" title="具体证明："></a>具体证明：</h3>]]></content>
       <categories>
         <category>图论</category>
