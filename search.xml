@@ -51,7 +51,9 @@
 
 <h3 id="具体证明："><a href="#具体证明：" class="headerlink" title="具体证明："></a>具体证明：</h3>]]></content>
       <categories>
-        <category>图论 - 最短路 - 朴素Dijkstra</category>
+        <category>图论</category>
+        <category>最短路</category>
+        <category>朴素Dijkstra</category>
       </categories>
       <tags>
         <tag>dijkstra</tag>
