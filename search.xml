@@ -41,7 +41,7 @@
 ]]></content>
   </entry>
   <entry>
-    <title>朴素$dijkstra$算法</title>
+    <title>朴素 $dijkstra$ 算法</title>
     <url>/2022/11/08/%E6%9C%B4%E7%B4%A0dijkstra%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="朴素-Dijkstra-算法"><a href="#朴素-Dijkstra-算法" class="headerlink" title="朴素 Dijkstra 算法"></a>朴素 Dijkstra 算法</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><ul>
 <li>O(n^2)</li>
