@@ -41,29 +41,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>朴素 $dijkstra$ 算法</title>
-    <url>/2022/11/08/%E6%9C%B4%E7%B4%A0dijkstra%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="朴素-Dijkstra-算法"><a href="#朴素-Dijkstra-算法" class="headerlink" title="朴素 $Dijkstra$ 算法"></a>朴素 $Dijkstra$ 算法</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><ul>
-<li>$O(n^2)$</li>
-</ul>
-<h2 id="整体思路："><a href="#整体思路：" class="headerlink" title="整体思路："></a>整体思路：</h2><ul>
-<li>初始化，将起点加入已更新的点中，并将起点的 <code>dist</code> 设为 0，其余点的 <code>dist</code> 为 INF，代表没更新</li>
-<li>循环 <code>n - 1</code> 次，每次更新一个点，</li>
-<li>用这个点更新其他点到起点的距离</li>
-</ul>
-<h2 id="如图所示："><a href="#如图所示：" class="headerlink" title="如图所示："></a>如图所示：</h2><p><img src="https://img-blog.csdnimg.cn/0921267586bb431fab5bc2e42a854077.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm0X-aYjg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="朴素 $Dijkstra$ 算法"></p>
-<h2 id="模板代码如下："><a href="#模板代码如下：" class="headerlink" title="模板代码如下："></a>模板代码如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> g[N][N];  <span class="comment">// 邻接矩阵，存储每条边</span></span><br><span class="line"><span class="type">int</span> dist[N];  <span class="comment">// 存储1号点到每个点的最短距离</span></span><br><span class="line"><span class="type">bool</span> st[N];   <span class="comment">// 存储每个点的最短路是否已经确定</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 求1号点到n号点的最短路，如果不存在则返回-1</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijkstra</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 先选中一个点，剩余 n - 1 个点，迭代 n - 1 次</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = <span class="number">-1</span>;     <span class="comment">// 在还未确定最短路的点中，寻找距离最小的点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            <span class="keyword">if</span> (!st[j] &amp;&amp; (t == <span class="number">-1</span> || dist[t] &gt; dist[j]))</span><br><span class="line">                t = j;</span><br><span class="line"> </span><br><span class="line">        st[t] = <span class="literal">true</span>;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 用t更新其他点的距离</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            dist[j] = <span class="built_in">min</span>(dist[j], dist[t] + g[t][j]);</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (dist[n] == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> dist[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="具体证明："><a href="#具体证明：" class="headerlink" title="具体证明："></a>具体证明：</h2>]]></content>
-      <categories>
-        <category>图论</category>
-        <category>最短路</category>
-        <category>朴素 $Dijkstra$</category>
-      </categories>
-      <tags>
-        <tag>$dijkstra$</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>双端队列广搜</title>
     <url>/2022/11/09/%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97%E5%B9%BF%E6%90%9C/</url>
     <content><![CDATA[<h1 id="双端队列广搜"><a href="#双端队列广搜" class="headerlink" title="双端队列广搜"></a>双端队列广搜</h1><h2 id="时间复杂度；"><a href="#时间复杂度；" class="headerlink" title="时间复杂度；"></a>时间复杂度；</h2><ul>
@@ -85,6 +62,40 @@
       </categories>
       <tags>
         <tag>双端队列广搜</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>朴素 $dijkstra$ 算法</title>
+    <url>/2022/11/08/%E6%9C%B4%E7%B4%A0dijkstra%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="朴素-Dijkstra-算法"><a href="#朴素-Dijkstra-算法" class="headerlink" title="朴素 $Dijkstra$ 算法"></a>朴素 $Dijkstra$ 算法</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><ul>
+<li>$O(n^2)$</li>
+</ul>
+<h2 id="算法应用情景："><a href="#算法应用情景：" class="headerlink" title="算法应用情景："></a>算法应用情景：</h2><ul>
+<li>不含有负权边的图中</li>
+</ul>
+<h2 id="整体思路："><a href="#整体思路：" class="headerlink" title="整体思路："></a>整体思路：</h2><ul>
+<li>初始化，将起点加入已更新的点中，并将起点的 <code>dist</code> 设为 0，其余点的 <code>dist</code> 为 INF，代表没更新</li>
+<li>循环 <code>n - 1</code> 次，每次更新一个点，</li>
+<li>用这个点更新其他点到起点的距离</li>
+</ul>
+<h2 id="如图所示："><a href="#如图所示：" class="headerlink" title="如图所示："></a>如图所示：</h2><p><img src="https://img-blog.csdnimg.cn/0921267586bb431fab5bc2e42a854077.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm0X-aYjg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="朴素 $Dijkstra$ 算法"></p>
+<h2 id="模板代码如下："><a href="#模板代码如下：" class="headerlink" title="模板代码如下："></a>模板代码如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> g[N][N];  <span class="comment">// 邻接矩阵，存储每条边</span></span><br><span class="line"><span class="type">int</span> dist[N];  <span class="comment">// 存储1号点到每个点的最短距离</span></span><br><span class="line"><span class="type">bool</span> st[N];   <span class="comment">// 存储每个点的最短路是否已经确定</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 求1号点到n号点的最短路，如果不存在则返回-1</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijkstra</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 先选中一个点，剩余 n - 1 个点，迭代 n - 1 次</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = <span class="number">-1</span>;     <span class="comment">// 在还未确定最短路的点中，寻找距离最小的点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            <span class="keyword">if</span> (!st[j] &amp;&amp; (t == <span class="number">-1</span> || dist[t] &gt; dist[j]))</span><br><span class="line">                t = j;</span><br><span class="line"> </span><br><span class="line">        st[t] = <span class="literal">true</span>;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 用t更新其他点的距离</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            dist[j] = <span class="built_in">min</span>(dist[j], dist[t] + g[t][j]);</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (dist[n] == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> dist[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="个人理解："><a href="#个人理解：" class="headerlink" title="个人理解："></a>个人理解：</h2><blockquote>
+<p>$Dijkstra$ 算法严格规定一个点出队即为这个点的最短路，若一个点出队后，之后的点中有负权边，则之前的点应该被更新，但这个点已经出队，无法被更新，所以 $Dijkstra$ 系列算法都无法处理负权边的情况。</p>
+</blockquote>
+<h2 id="具体证明："><a href="#具体证明：" class="headerlink" title="具体证明："></a>具体证明：</h2><ul>
+<li>如何证明最短路？仅需证明路径中的每一步都为当前的所有可行的道路中的最小值即可，每一步都最小，则所有步相加，必定可以使得结果最小，</li>
+<li>$Dijkstra$ 算法正是如此，基于贪心的原理，每一次所走的路为当前可走的路中的最小值，所以可以增明最短路，</li>
+<li>此外，还可以证明的是当一个点出队时，当前值即为从起点到该点的最短路，思路由数学归纳法可知，和证明终点为最短路类似，令该点为终点，可发现代码实现和原代码如出一辙，由此得证</li>
+</ul>
+]]></content>
+      <categories>
+        <category>图论</category>
+        <category>最短路</category>
+        <category>朴素 $Dijkstra$</category>
+      </categories>
+      <tags>
+        <tag>$dijkstra$</tag>
       </tags>
   </entry>
 </search>
