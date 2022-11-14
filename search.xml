@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Floyd算法的倍增思想</title>
-    <url>/2022/11/14/Floyd%E7%AE%97%E6%B3%95%E7%9A%84%E5%80%8D%E5%A2%9E%E6%80%9D%E6%83%B3/</url>
-    <content><![CDATA[<h1 id="Floyd算法的倍增思想"><a href="#Floyd算法的倍增思想" class="headerlink" title="Floyd算法的倍增思想"></a>Floyd算法的倍增思想</h1><p>例题：<a href="!https://www.acwing.com/problem/content/347/">345.牛站</a></p>
-<h2 id="时间复杂度："><a href="#时间复杂度：" class="headerlink" title="时间复杂度："></a>时间复杂度：</h2><ul>
-<li>O(n^3)</li>
-</ul>
-<h2 id="算法思路："><a href="#算法思路：" class="headerlink" title="算法思路："></a>算法思路：</h2><h2 id="具体实现："><a href="#具体实现：" class="headerlink" title="具体实现："></a>具体实现：</h2>]]></content>
-      <categories>
-        <category>图论</category>
-        <category>Floyd算法的倍增思想</category>
-      </categories>
-      <tags>
-        <tag>floyd</tag>
-        <tag>倍增</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Floyd算法求最小环</title>
     <url>/2022/11/13/Floyd%E7%AE%97%E6%B3%95%E6%B1%82%E6%9C%80%E5%B0%8F%E7%8E%AF/</url>
     <content><![CDATA[<h2 id="Floyd-算法求最小环"><a href="#Floyd-算法求最小环" class="headerlink" title="Floyd 算法求最小环"></a>Floyd 算法求最小环</h2><h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><ul>
@@ -44,6 +27,114 @@
       <tags>
         <tag>floyd</tag>
         <tag>最小环问题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Floyd思想和倍增思想</title>
+    <url>/2022/11/14/Floyd%E6%80%9D%E6%83%B3%E5%92%8C%E5%80%8D%E5%A2%9E%E6%80%9D%E6%83%B3/</url>
+    <content><![CDATA[<h1 id="Floyd思想和倍增思想"><a href="#Floyd思想和倍增思想" class="headerlink" title="Floyd思想和倍增思想"></a>Floyd思想和倍增思想</h1><p>例题：<a href="!https://www.acwing.com/problem/content/347/">345.牛站</a></p>
+<h2 id="时间复杂度："><a href="#时间复杂度：" class="headerlink" title="时间复杂度："></a>时间复杂度：</h2><ul>
+<li>O(n^3*logm)</li>
+</ul>
+<h2 id="算法思路："><a href="#算法思路：" class="headerlink" title="算法思路："></a>算法思路：</h2><ul>
+<li>Floyd思想：<ul>
+<li>状态表示：d[K][i][j]为从i到j的经过前K条边的路径的最小值(与Floyd的d[n][i][j]经过前n个点的表示方法略有不同)</li>
+<li>状态计算：d[K][i][j] = d[a][i][k] + d[b][k][j]，其中k为经过前a条边后的点，</li>
+<li>更新一次可以增加两条边，更新两次增加三条边，如此我们仅需更新m-1次即可得到d[m][S][E]，时间复杂度为：O(n^3*m) n为200，m为1e6必定TLE</li>
+<li>可以用倍增思想来将时间复杂度化为logm</li>
+</ul>
+</li>
+<li>倍增思想(快速幂思想)<ul>
+<li>最终路径类似于：S-&gt;x1-&gt;x2-&gt;x3-&gt;……-&gt;……-&gt;xm-1-&gt;E, 中间经过了m-1个点，m条边</li>
+<li>我们可发现上述的路径先计算与后计算不会相互影响，即可以先计算中间的或先计算后面的，具有结合律，如此可借助倍增思想，仅需logm次即可找到合法路径</li>
+<li>时间复杂度：O(n^3*logm)</li>
+</ul>
+</li>
+</ul>
+<h2 id="具体实现："><a href="#具体实现：" class="headerlink" title="具体实现："></a>具体实现：</h2><ul>
+<li>哈希所有用过的点，包括起点和终点</li>
+<li>倍增算法</li>
+</ul>
+<h2 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">210</span>, M = <span class="number">1000010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m, K, S, E;</span><br><span class="line"><span class="type">int</span> g[N][N];</span><br><span class="line"><span class="type">int</span> res[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mul</span><span class="params">(<span class="type">int</span> c[][N], <span class="type">int</span> a[][N], <span class="type">int</span> b[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> temp[N][N];</span><br><span class="line">    <span class="built_in">memset</span>(temp, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> temp);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1</span>; k &lt;= n; k ++ )</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">                temp[i][j] = <span class="built_in">min</span>(temp[i][j], a[i][k] + b[k][j]);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(c, temp, <span class="keyword">sizeof</span> temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 倍增</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">qmi</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(res, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> res);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 一条边都不走，i-&gt;i必须为0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ ) res[i][i] = <span class="number">0</span>; </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (K)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (K &amp; <span class="number">1</span>) <span class="built_in">mul</span>(res, res, g);</span><br><span class="line">        <span class="built_in">mul</span>(g, g, g);</span><br><span class="line">        K &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; K &gt;&gt; m &gt;&gt; S &gt;&gt; E;</span><br><span class="line">    </span><br><span class="line">    map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; ids;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!ids.<span class="built_in">count</span>(S)) ids[S] = ++ n;</span><br><span class="line">    <span class="keyword">if</span> (!ids.<span class="built_in">count</span>(E)) ids[E] = ++ n;</span><br><span class="line">    S = ids[S], E = ids[E];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memset</span>(g, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> g);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 初始化自环为0，即经过一条边走到自身的权值为0，多此一举</span></span><br><span class="line">    <span class="comment">// 因为通过一条边的权值可能大于0，如果初始化为0，则之后的边无法在g中表现出来</span></span><br><span class="line">    <span class="comment">// for (int i = 1; i &lt;= N; i ++ )</span></span><br><span class="line">    <span class="comment">//     g[i][i] = 0;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b, c;</span><br><span class="line">        cin &gt;&gt; c &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        <span class="keyword">if</span> (!ids.<span class="built_in">count</span>(a)) ids[a] = ++ n;</span><br><span class="line">        <span class="keyword">if</span> (!ids.<span class="built_in">count</span>(b)) ids[b] = ++ n;</span><br><span class="line">        a = ids[a], b = ids[b];</span><br><span class="line">        </span><br><span class="line">        g[a][b] = g[b][a] = <span class="built_in">min</span>(g[a][b], c);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">qmi</span>();</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; res[S][E] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>图论</category>
+        <category>Floyd思想和倍增思想</category>
+      </categories>
+      <tags>
+        <tag>floyd</tag>
+        <tag>倍增</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kruskal算法</title>
+    <url>/2022/11/14/Kruskal%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Kruskal算法"><a href="#Kruskal算法" class="headerlink" title="Kruskal算法"></a>Kruskal算法</h1><h2 id="时间复杂度："><a href="#时间复杂度：" class="headerlink" title="时间复杂度："></a>时间复杂度：</h2><ul>
+<li>O(mlogn)</li>
+</ul>
+<h2 id="使用范围"><a href="#使用范围" class="headerlink" title="使用范围"></a>使用范围</h2><ul>
+<li>求朴素最小生成树</li>
+<li>求最小生成森林，(求最小生成树的前一半)</li>
+<li>已知一些边，求最小生成树(求最小生成树的后一半)</li>
+</ul>
+<h2 id="具体实现："><a href="#具体实现：" class="headerlink" title="具体实现："></a>具体实现：</h2><ul>
+<li>将所有边按照权重从小到大排序</li>
+<li>枚举每条边的顶点a, b, 权重c，若a, b不在一个集合，则合并a, b集合, 反之则跳过，判断下一条边</li>
+</ul>
+<h2 id="算法证明："><a href="#算法证明：" class="headerlink" title="算法证明："></a>算法证明：</h2><ul>
+<li>证明思路与prim算法类似。<ul>
+<li>如何证明这条边一定可以被选？</li>
+<li>假设不选当前边，最终得到了一棵树。然后将这条边加上，那么必然会形成一个环，在这个环上，一定可以找出一条长度不小于当前边的边，那么把当前边替换上去，结果一定不会变差。</li>
+</ul>
+</li>
+<li>证明结论：若该边的两点所在的集合不同，则该边必定在最小生成树中</li>
+<li>证明结论如下：<ul>
+<li>反证法：假设没有选择该边x1，则必定选择了之后的边x2使得两集合合并，使之形成最小生成树</li>
+<li>证明：把边x1加到用x2形成的最小生成树中，则会在形成一个环，且该边一定包含x1,x2，此时若把x2去除，则形成的也为一个生成树，且因为x1小于x2，新生成的生成树比原来的权值和还小，则可证x1比x2更合适，所以得证，若上述证明结论的情况发生，则必定成立！</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a, b, w;</span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> Edge &amp;W)<span class="type">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> w &lt; W.w;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;edge[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(p[x] != x) p[x] = <span class="built_in">find</span>(p[x]);</span><br><span class="line">    <span class="keyword">return</span> p[x];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// kruskal 算法同样可以求最小生成森林（不全部连通的最小生成树）</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">kruskal</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a = <span class="built_in">find</span>(edge[i].a), b = <span class="built_in">find</span>(edge[i].b);</span><br><span class="line">        <span class="keyword">if</span>(a != b) p[a] = b;</span><br><span class="line">        <span class="keyword">else</span> res += edge[i].w;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>最小生成树</category>
+        <category>kruskal算法</category>
+      </categories>
+      <tags>
+        <tag>最小生成树</tag>
+        <tag>kruskal算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Prim算法</title>
+    <url>/2022/11/14/Prim%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h1><h2 id="时间复杂度："><a href="#时间复杂度：" class="headerlink" title="时间复杂度："></a>时间复杂度：</h2><ul>
+<li>O(n^2)</li>
+</ul>
+<h2 id="具体实现："><a href="#具体实现：" class="headerlink" title="具体实现："></a>具体实现：</h2><ul>
+<li>邻接矩阵存边的权值</li>
+<li>每次选择当前集合终和外界所连边的权值最小的点</li>
+<li>将该边所连的点扩展，并用刚扩展的点更新其他点到当前集合的权值</li>
+</ul>
+<h2 id="算法证明："><a href="#算法证明：" class="headerlink" title="算法证明："></a>算法证明：</h2><ul>
+<li>证明思路与kruskal算法类似。<ul>
+<li>如何证明这条边一定可以被选？</li>
+<li>假设不选当前边，最终得到了一棵树。然后将这条边加上，那么必然会形成一个环，在这个环上，一定可以找出一条长度不小于当前边的边，那么把当前边替换上去，结果一定不会变差。</li>
+</ul>
+</li>
+<li>证明结论：当前与外界直接相连的权值最小的一条边，这条边一定可以出现在最优解中。</li>
+<li>证明过程如下：<ul>
+<li>反证法：假设选择最小生成树的某一个状态集合x扩展某一个边x1(最小)时没有选择该边，选择了另一个边x2(非最小)，从而形成了一个生成树。</li>
+<li>证明：已知集合x可扩展多个边x1, x2……x’等(权值升序排列)，选择了x2边扩展。若将x1边加入扩展了x2边而最终形成的生成树中，则必定会形成一个环，且该环上一定包含x’这条边，因为x1为扩展出来的权值最小的边，x’等其他边时扩展出来的非权值第一小边，则将x’去掉，x1加上，形成的还是一个生成树，且该生成树的总权值小于原来的生成树。如此，得证。</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">prim</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">    dist[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j ++ )</span><br><span class="line">            <span class="keyword">if</span> (!st[j] &amp;&amp; (t == <span class="number">-1</span> || dist[t] &gt; dist[j]))</span><br><span class="line">                t = j;</span><br><span class="line">        st[t] = <span class="literal">true</span>;</span><br><span class="line">        res += dist[t];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j ++ )</span><br><span class="line">            dist[j] = <span class="built_in">min</span>(dist[j], g[t][j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>最小生成树</category>
+        <category>prim算法</category>
+      </categories>
+      <tags>
+        <tag>最小生成树</tag>
+        <tag>prim算法</tag>
       </tags>
   </entry>
   <entry>
@@ -203,6 +294,24 @@
       </categories>
       <tags>
         <tag>dijkstra</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法竞赛技巧</title>
+    <url>/2022/11/15/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h1 id="算法竞赛技巧"><a href="#算法竞赛技巧" class="headerlink" title="算法竞赛技巧"></a>算法竞赛技巧</h1><h2 id="竞赛缓解压力及做题顺序"><a href="#竞赛缓解压力及做题顺序" class="headerlink" title="竞赛缓解压力及做题顺序"></a>竞赛缓解压力及做题顺序</h2><ul>
+<li>太紧张，可以吃一些东西，口香糖什么的，可以有效缓解压力</li>
+<li>前两题较简单，看清题目，先做掉。</li>
+<li>后面的题，若看很长时间了，仍然不会，打住！想暴力，那暴力分</li>
+</ul>
+<h2 id="防卡常"><a href="#防卡常" class="headerlink" title="防卡常"></a>防卡常</h2><ul>
+<li>调用 <ctime> 函数库中的 clock()函数</li>
+<li>clock()单位为 1e-6次方毫秒，1 clock() == 1e-6秒</li>
+</ul>
+<p>例子代码:<br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> start = <span class="built_in">clock</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; ; ++ i )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// clock()本身很慢，用 i%1000 == 0 来短路它避免频繁调用</span></span><br><span class="line">        <span class="keyword">if</span> (i % <span class="number">1000</span> == <span class="number">0</span> &amp;&amp; <span class="built_in">clock</span>() - start &gt;= <span class="number">850000</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; i &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>应试技巧</tag>
       </tags>
   </entry>
 </search>
