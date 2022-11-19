@@ -438,93 +438,6 @@
       </tags>
   </entry>
   <entry>
-    <title>有向图的强连通分量</title>
-    <url>/posts/31194034/</url>
-    <content><![CDATA[<h1 id="有向图的强连通分量"><a href="#有向图的强连通分量" class="headerlink" title="有向图的强连通分量"></a>有向图的强连通分量</h1><blockquote>
-<p>强连通分量 : SCC, 有向无环图 : DAG</p>
-</blockquote>
-<h2 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h2><ul>
-<li>默认前提为有向图。</li>
-<li>连通分量：对于分量中的任意两点 u, v, 必然存在可以从 u 走到 v, 且从 v 走到 u 。</li>
-<li>强连通分量 (SCC)：极大连通分量，(无法加入任何点的连通分量)</li>
-</ul>
-<h2 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h2><ul>
-<li>将任意一个有向图，通过 缩点 ，转化为有向无环图(拓扑图，DAG)</li>
-<li>缩点：将所有连通分量缩成一个点</li>
-<li>好处是求最短路或最长路时，可以递推来做，时间复杂度为 线性: O(n + m)</li>
-</ul>
-<h2 id="Tarjan算法理论基础："><a href="#Tarjan算法理论基础：" class="headerlink" title="Tarjan算法理论基础："></a>Tarjan算法理论基础：</h2><ul>
-<li>按照 DFS 的顺序来求</li>
-<li>把边分为四类<ul>
-<li>树枝边 (x, y)：x 是 y 的父节点</li>
-<li>前向边 (x, y)：x 是 y 的祖先节点 (x -&gt; y)</li>
-<li>后向边 (x, y): 指向祖先节点的边 (y -&gt; x)</li>
-<li>横叉边 (x, y): 指向之前搜过的边</li>
-</ul>
-</li>
-<li>如何判断一个点是否在强连通分量中？<ul>
-<li>情况1：存在<strong>后向边</strong>直接指向祖先节点</li>
-<li>情况2：通过<strong>横叉边</strong>的<strong>后向边</strong>走到祖先节点</li>
-</ul>
-</li>
-</ul>
-<h2 id="Tarjan算法求强连通分量-SCC-："><a href="#Tarjan算法求强连通分量-SCC-：" class="headerlink" title="Tarjan算法求强连通分量(SCC)："></a>Tarjan算法求强连通分量(SCC)：</h2><ul>
-<li>时间戳(timestamp)：根据深度优先遍历的顺序给每个点编号；<ul>
-<li>对每个点定义两个遍历到 u 的时间戳，<ul>
-<li>dfn[u]: 遍历到 u 的时间</li>
-<li>low[u]: u 可以遍历到的最小的时间戳</li>
-<li>若 u 是其所在强连通分量的最高点，则 dfn[u] == low[u]，可知，u 的强连通分量中不可以加入任何点了，如此就找到了 u 所在的强连通分量。</li>
-</ul>
-</li>
-<li>各种边的性质如下：<ul>
-<li>树枝边: dfn[y] &gt; dfn[x];</li>
-<li>前向边: dfn[y] &gt; dfn[x];</li>
-<li>后向边: dfn[y] &lt; dfn[x];</li>
-<li>横向边: dfn[y] &lt; dfn[x];</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>如何实现：背过板子即可  <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], w[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dfn[N], low[N], timestamp;</span><br><span class="line"><span class="type">int</span> stk[N], top;</span><br><span class="line"><span class="type">bool</span> in_stk[N];</span><br><span class="line"><span class="type">int</span> id[N], scc_cnt, scc_size[N];</span><br><span class="line"><span class="type">int</span> din[N], dout[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    dfn[u] = low[u] = ++ timestamp;</span><br><span class="line">    stk[ ++ top] = u, in_stk[u] = <span class="literal">true</span>; </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; ~i; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span>(!dfn[j]) <span class="comment">// 没遍历过</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">tarjan</span>(j);</span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], low[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 遍历过，且没在任何连通分量中</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(in_stk[j]) low[u] = <span class="built_in">min</span>(low[u], dfn[j]); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 栈中当前点之后的点为一个强连通分量</span></span><br><span class="line">    <span class="keyword">if</span>(dfn[u] == low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        ++ scc_cnt;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            y = stk[top -- ];  <span class="comment">// 取出栈顶</span></span><br><span class="line">            in_stk[y] = <span class="literal">false</span>; <span class="comment">// 不在栈中</span></span><br><span class="line">            scc_id[y] = scc_cnt;   <span class="comment">// 标记为第scc_cnt号强连通分量 </span></span><br><span class="line">            scc_size[scc_cnt] ++;</span><br><span class="line">        &#125; <span class="keyword">while</span>(y != u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>缩点：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j = h[i]; ~j; j = ne[j])</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="type">int</span> k = e[j];</span><br><span class="line">      <span class="type">int</span> a = scc_id[i], b = scc_id[k];</span><br><span class="line">      <span class="keyword">if</span>( a != b) dout[a] ++;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
-<li>连通分量编号递减的顺序一定为拓扑序，(不用多写一步拓扑排序)<ul>
-<li>证明：类似 tarjan 算法类似如下的 dfs 求 拓扑排序</li>
-<li>dfs 求拓扑排序，seq[N] 的逆序一定为拓扑排序<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> u 的所有邻点：</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">    seq &lt;- u</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>可证得，对于 seq 中每个点 u 其后继节点在 seq 中的位置一定在 u 的前面</li>
-</ul>
-</li>
-</ul>
-<p>例题：<a href="https://www.acwing.com/problem/content/1176/">1174. 受欢迎的牛</a></p>
-<h2 id="代码板子如下："><a href="#代码板子如下：" class="headerlink" title="代码板子如下："></a>代码板子如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">10010</span>, M = <span class="number">50010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], w[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dfn[N], low[N], timestamp;</span><br><span class="line"><span class="type">int</span> stk[N], top;</span><br><span class="line"><span class="type">bool</span> in_stk[N];</span><br><span class="line"><span class="type">int</span> id[N], scc_cnt, scc_size[N];</span><br><span class="line"><span class="type">int</span> dout[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, ne[idx] = h[a], h[a] = idx ++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    dfn[u] = low[u] = ++ timestamp;</span><br><span class="line">    stk[ ++ top] = u, in_stk[u] = <span class="literal">true</span>; </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; ~i; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span>(!dfn[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">tarjan</span>(j);</span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], low[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(in_stk[j]) low[u] = <span class="built_in">min</span>(low[u], dfn[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(dfn[u] == low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        ++ scc_cnt;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            y = stk[top -- ];</span><br><span class="line">            in_stk[y] = <span class="literal">false</span>;</span><br><span class="line">            id[y] = scc_cnt;</span><br><span class="line">            scc_size[scc_cnt] ++;</span><br><span class="line">        &#125; <span class="keyword">while</span>(y != u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">        <span class="built_in">add</span>(a, b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(!dfn[i])</span><br><span class="line">            <span class="built_in">tarjan</span>(i);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = h[i]; ~j; j = ne[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> k = e[j];</span><br><span class="line">            <span class="type">int</span> a = id[i], b = id[k];</span><br><span class="line">            <span class="keyword">if</span>( a != b) dout[a] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="type">int</span> zeros = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= scc_cnt; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(!dout[i])</span><br><span class="line">        &#123;</span><br><span class="line">            zeros ++;</span><br><span class="line">            sum += scc_size[i];</span><br><span class="line">            <span class="keyword">if</span>(zeros &gt; <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                sum = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, sum);</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="常用结论及证明："><a href="#常用结论及证明：" class="headerlink" title="常用结论及证明："></a>常用结论及证明：</h2><blockquote>
-<p>结论一：设一个图是非强连通分量，且 tarjan 算法得到的入度为0的点，即起点为P个，出度为0的点，即终点为Q个，把该图变为强连通分量(缩点缩成一个点)，最少需要加几条边？</p>
-<p>答：最少需要新加 max(P, Q) 条边，特判掉若 P = Q == 1，则一个边都不用加。 </p>
-</blockquote>
-<h3 id="结论一证明："><a href="#结论一证明：" class="headerlink" title="结论一证明："></a>结论一证明：</h3><ul>
-<li>分析可知 P &lt;= Q 的情况 和 P &gt;= Q 的情况类似，所以下面我们只证明 P &lt;= Q 的情况</li>
-<li>当 P == 1 时，可知 P 可到达所有点，所以只需令 Q 个终点都与起点 P 连一条边，则所有路径的点都可以到达起点，即、所有点都可以到达所有点。答案为 Q ，满足 max(P, Q);</li>
-<li>当 P &gt; 1 时，可知 Q &gt;= P &gt; 1，则前提 1：必然可以找到两个起点 P1, P2 和两个终点 Q1, Q2，使得 P1 -&gt; …… -&gt; Q1, P2 -&gt; …… -&gt; Q2，一定成立。<ul>
-<li>简单证明前提 1：</li>
-<li>反证法：如果找不到这样的两个点，则必然 Pi -&gt; …… -&gt; Q1 (解释，所有点都走向了 Q1 这个终点，但我们的终点不止 1 个，即、Q &gt; 1，则与已知条件矛盾)，所以必然有 一个 Pj -&gt; …… -&gt; Q2。</li>
-</ul>
-</li>
-<li>从 Q1 连一条边向 P2 ，则 P —, Q — ，起点终点同时 -1。归纳为 加一条边 P, Q同时-1，若去掉 P - 1 次，则此时 P == 1，Q == Q - (P - 1)，此时由之前的 P == 1 的证明可知还需要再加 Q 条边，所以新加的边的总和为：P - 1 + Q - (P - 1) 即为 Q，满足 max(P, Q)</li>
-<li>两种情况都成立，故结论成立，得证！</li>
-</ul>
-<p>例题：<a href="https://www.acwing.com/problem/content/1177/">1175. 最大半连通子图</a></p>
-<blockquote>
-<p>思路：缩点后找最长链(tarjan的强连通分量 + 背包问题求方案数)</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>图论</category>
-        <category>有向图的强连通分量</category>
-      </categories>
-      <tags>
-        <tag>有向图的强连通分量</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>朴素 dijkstra 算法</title>
     <url>/posts/bc46f58a/</url>
     <content><![CDATA[<h1 id="朴素-Dijkstra-算法"><a href="#朴素-Dijkstra-算法" class="headerlink" title="朴素 Dijkstra 算法"></a>朴素 Dijkstra 算法</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><ul>
@@ -637,6 +550,178 @@
 ]]></content>
       <tags>
         <tag>应试技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>无向图的双连通分量(DCC)</title>
+    <url>/posts/b8105b5b/</url>
+    <content><![CDATA[<h1 id="无向图的双连通分量-DCC"><a href="#无向图的双连通分量-DCC" class="headerlink" title="无向图的双连通分量(DCC)"></a>无向图的双连通分量(DCC)</h1><blockquote>
+<p>可分为 边双连通分量(e-DCC) 与 点双连通分量(v-DCC)</p>
+</blockquote>
+<h2 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h2><ul>
+<li>点双连通分量不一定是边双连通分量，边双连通分量也不一定是点双连通分量</li>
+<li>割点与桥<strong>没有</strong>什么本质的关系</li>
+<li>两个割点之间的边不一定是桥</li>
+<li>一个桥的两个端点不一定是割点</li>
+</ul>
+<h2 id="边双连通分量-e-DCC"><a href="#边双连通分量-e-DCC" class="headerlink" title="边双连通分量(e-DCC)"></a>边双连通分量(e-DCC)</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>桥：一条无向边，若删除此边，整个图变得不连通，则称这条边为“桥”。</li>
+<li>边双连通分量：极大的不包含“桥”的连通块，则称为“边的双连通分量”</li>
+<li>性质：<ol>
+<li>无论删除哪一条边，整个图一定还是连通的</li>
+<li>任意两点之间一定包含两条不相交的路径(边不相交)。</li>
+</ol>
+</li>
+</ul>
+<h3 id="Tarjan算法求边的双连通分量"><a href="#Tarjan算法求边的双连通分量" class="headerlink" title="Tarjan算法求边的双连通分量"></a>Tarjan算法求边的双连通分量</h3><ul>
+<li>时间戳(timestamp)，dfn[N], low[N], 和有向图的强连通分量作用相同</li>
+<li>如何找到桥？<ul>
+<li>若子节点可以走到父节点或祖先节点，则从父节点到子节点的边不是桥，等价于，若边 x-y 为桥，则 dfn[x] &lt; low[y]</li>
+</ul>
+</li>
+<li>如何找到边双连通分量？<ul>
+<li>方法一：将所有桥删去</li>
+<li>方法二：类似于有向图的强连通分量的Tarjan算法，用栈(stk数组)维护，刚开始搜索加到栈里，若dfs[i] == low[i]的话(即、i的父节点到i这条边为桥)，则i当前所在的子树中的节点即为当前边的双连通分量中的点。</li>
+</ul>
+</li>
+</ul>
+<p><strong>例题：</strong><a href="https://www.acwing.com/problem/content/397/">395. 冗余路径</a></p>
+<p><strong>题意：</strong></p>
+<p>给定一个无向连通图，<br>问：最少加几条边，使得任何两点之间都至少有两条边；等价于，最少加几条边，可以将其变成边双连通分量。</p>
+<p><strong>结论1：</strong>任何两点之间都至少有两条边；等价于，此图为边双连通分量</p>
+<p><strong>证明1：</strong></p>
+<ul>
+<li>充分性：左 -&gt; 右<ul>
+<li>如果 任何两点之间都至少有两条边 则 此图是边双连通分量</li>
+<li>反证法：假设任何两点之间都包含两条互不相交的路径，如果其不是边的双连通分量，则意味着这个图中，至少存在一个桥。</li>
+<li>在桥两侧的连通块中任意找两个点x, y，则x到y的所有路径都经过桥这条边，所以x, y两点之间不存在两条互不相交的路径，与条件中的 任何两点直接按都包含两条互不相交的路径相矛盾，则假设不成立，原命题成立。</li>
+</ul>
+</li>
+<li>必要性：左 &lt;- 右<ul>
+<li>如果 此图是边双连通分量 则 任何两点之间都至少有两条边</li>
+<li>左可推：此图不含桥，假设两点 x, y 则 x, y 的最短路径为连接 x, y 的一条边，对于该边中的每一段边，都可以直到这个边不是桥，则两个连通块之间必定有两外一条边，，基本思路为如此，具体证明y也不太清楚hh。</li>
+</ul>
+</li>
+</ul>
+<p><strong>结论2：</strong>如果度数为 1 的点的个数为 cnt 个，则需要新加 (cnt + 1) / 2 条边，可以使得此图变为边的双连通分量。</p>
+<p><strong>证明2：</strong></p>
+<ul>
+<li>结论：</li>
+<li>证明 ans &gt;= (cnt + 1) / 2 : 若此图边为边的双连通分量，等价于所有点的度数 &gt;= 2 , 即、所有度数为 1 的点都至少需要加一条边，最优先的连边策略为两个度数为 1 的点连一条边，消除两个度数为 1 的点，如果剩余一个点，此点随便连一个点即可，如此新加的边的个数的最优策略为 cnt / 2上取整，等价于 (cnt + 1) / 2 下取整，即所求新加的边 ans &gt;= (cnt + 1) / 2 (最优解)。</li>
+<li>证明 ans == (cnt + 1) / 2 : 可知如果可以取到 (cnt + 1) / 2，则 我们所求的 ans == (cnt + 1) / 2; <ul>
+<li>边界：当 只有两个点时，加一条边即可，(2 + 1) / 2 == 1 成立</li>
+<li>至少有三个点：以一个度数至少为 2 的点为根节点，则所有度数为 1 的点都为叶子节点，两个叶子节点相连，剩余一个随便连，则新加的边的数量为 (cnt + 1) / 2，也成立。</li>
+</ul>
+</li>
+<li>大致证明为以上的叙述，，具体证明太麻烦，就此告一段落，记住结论即可。</li>
+</ul>
+<h3 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5010</span>, M = <span class="number">20010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dfn[N], low[N], timestamp;</span><br><span class="line"><span class="type">int</span> stk[N], top;</span><br><span class="line"><span class="type">int</span> dcc_id[N], dcc_cnt;</span><br><span class="line"><span class="type">bool</span> is_bridge[M];</span><br><span class="line"><span class="type">int</span> d[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, ne[idx] = h[a], h[a] = idx ++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// from 为u是从哪条边来的</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> from)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    dfn[u] = low[u] = ++ timestamp;</span><br><span class="line">    stk[ ++ top] = u;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; ~i; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span>(!dfn[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">tarjan</span>(j, i); <span class="comment">// i 为边的编号</span></span><br><span class="line">            <span class="comment">// 关于此处为什么判断边?</span></span><br><span class="line">            <span class="comment">// 首先不可武断的判断是否为父节点父节点，我们要找的是边的双连通分量，两点之间可以有多条</span></span><br><span class="line">            <span class="comment">// 边，可能从 x - y 之间有 a, b 两条边，从 a 边下来，又从 b 边上去，这是可行的，若直接</span></span><br><span class="line">            <span class="comment">// 判断点，则 b 边是不可走，错误。</span></span><br><span class="line"></span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], low[j]);</span><br><span class="line">            <span class="keyword">if</span>(dfn[u] &lt; low[j])</span><br><span class="line">                is_bridge[i] = is_bridge[i ^ <span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(i != (from ^ <span class="number">1</span>)) <span class="comment">// 边成对出现</span></span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], dfn[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(dfn[u] == low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        ++ dcc_cnt;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            y = stk[top -- ];</span><br><span class="line">            dcc_id[y] = dcc_cnt;</span><br><span class="line">        &#125; <span class="keyword">while</span>(y != u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        <span class="built_in">add</span>(a, b), <span class="built_in">add</span>(b, a);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">tarjan</span>(<span class="number">1</span>, <span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 直接判断所有边是不是桥，若是，则相邻的两条边的 e[i] 所在的 dcc_id都会加上 1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; idx; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(is_bridge[i])</span><br><span class="line">            d[dcc_id[e[i]]] ++;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= dcc_cnt; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(d[i] == <span class="number">1</span>) </span><br><span class="line">            cnt ++;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, (cnt + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="点双连通分量-v-DCC"><a href="#点双连通分量-v-DCC" class="headerlink" title="点双连通分量(v-DCC)"></a>点双连通分量(v-DCC)</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>割点：一个点，若删除此点，整个图变得不连通，则称这个点为“割点”</li>
+<li>点双连通分量：极大的不包含“割点”的连通块，则称为“点的双连通分量”。</li>
+<li>性质：<ol>
+<li>每一个割点都会至少属于两个点双连通分量。</li>
+</ol>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>图论</category>
+        <category>无向图的双连通分量</category>
+      </categories>
+      <tags>
+        <tag>无向图的双连通分量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>有向图的强连通分量</title>
+    <url>/posts/31194034/</url>
+    <content><![CDATA[<h1 id="有向图的强连通分量"><a href="#有向图的强连通分量" class="headerlink" title="有向图的强连通分量"></a>有向图的强连通分量</h1><blockquote>
+<p>强连通分量 : SCC, 有向无环图 : DAG</p>
+</blockquote>
+<h2 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h2><ul>
+<li>默认前提为有向图。</li>
+<li>连通分量：对于分量中的任意两点 u, v, 必然存在可以从 u 走到 v, 且从 v 走到 u 。</li>
+<li>强连通分量 (SCC)：极大连通分量，(无法加入任何点的连通分量)</li>
+</ul>
+<h2 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h2><ul>
+<li>将任意一个有向图，通过 缩点 ，转化为有向无环图(拓扑图，DAG)</li>
+<li>缩点：将所有连通分量缩成一个点</li>
+<li>好处是求最短路或最长路时，可以递推来做，时间复杂度为 线性: O(n + m)</li>
+</ul>
+<h2 id="Tarjan算法理论基础："><a href="#Tarjan算法理论基础：" class="headerlink" title="Tarjan算法理论基础："></a>Tarjan算法理论基础：</h2><ul>
+<li>按照 DFS 的顺序来求</li>
+<li>把边分为四类<ul>
+<li>树枝边 (x, y)：x 是 y 的父节点</li>
+<li>前向边 (x, y)：x 是 y 的祖先节点 (x -&gt; y)</li>
+<li>后向边 (x, y): 指向祖先节点的边 (y -&gt; x)</li>
+<li>横叉边 (x, y): 指向之前搜过的边</li>
+</ul>
+</li>
+<li>如何判断一个点是否在强连通分量中？<ul>
+<li>情况1：存在<strong>后向边</strong>直接指向祖先节点</li>
+<li>情况2：通过<strong>横叉边</strong>的<strong>后向边</strong>走到祖先节点</li>
+</ul>
+</li>
+</ul>
+<h2 id="Tarjan算法求强连通分量-SCC-："><a href="#Tarjan算法求强连通分量-SCC-：" class="headerlink" title="Tarjan算法求强连通分量(SCC)："></a>Tarjan算法求强连通分量(SCC)：</h2><ul>
+<li>时间戳(timestamp)：根据深度优先遍历的顺序给每个点编号；<ul>
+<li>对每个点定义两个遍历到 u 的时间戳，<ul>
+<li>dfn[u]: 遍历到 u 的时间</li>
+<li>low[u]: u 可以遍历到的最小的时间戳</li>
+<li>若 u 是其所在强连通分量的最高点，则 dfn[u] == low[u]，可知，u 的强连通分量中不可以加入任何点了，如此就找到了 u 所在的强连通分量。</li>
+</ul>
+</li>
+<li>各种边的性质如下：<ul>
+<li>树枝边: dfn[y] &gt; dfn[x];</li>
+<li>前向边: dfn[y] &gt; dfn[x];</li>
+<li>后向边: dfn[y] &lt; dfn[x];</li>
+<li>横向边: dfn[y] &lt; dfn[x];</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如何实现：背过板子即可  <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], w[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dfn[N], low[N], timestamp;</span><br><span class="line"><span class="type">int</span> stk[N], top;</span><br><span class="line"><span class="type">bool</span> in_stk[N];</span><br><span class="line"><span class="type">int</span> id[N], scc_cnt, scc_size[N];</span><br><span class="line"><span class="type">int</span> din[N], dout[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    dfn[u] = low[u] = ++ timestamp;</span><br><span class="line">    stk[ ++ top] = u, in_stk[u] = <span class="literal">true</span>; </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; ~i; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span>(!dfn[j]) <span class="comment">// 没遍历过</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">tarjan</span>(j);</span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], low[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 遍历过，且没在任何连通分量中</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(in_stk[j]) low[u] = <span class="built_in">min</span>(low[u], dfn[j]); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 栈中当前点之后的点为一个强连通分量</span></span><br><span class="line">    <span class="keyword">if</span>(dfn[u] == low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        ++ scc_cnt;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            y = stk[top -- ];  <span class="comment">// 取出栈顶</span></span><br><span class="line">            in_stk[y] = <span class="literal">false</span>; <span class="comment">// 不在栈中</span></span><br><span class="line">            scc_id[y] = scc_cnt;   <span class="comment">// 标记为第scc_cnt号强连通分量 </span></span><br><span class="line">            scc_size[scc_cnt] ++;</span><br><span class="line">        &#125; <span class="keyword">while</span>(y != u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>缩点：<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j = h[i]; ~j; j = ne[j])</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="type">int</span> k = e[j];</span><br><span class="line">      <span class="type">int</span> a = scc_id[i], b = scc_id[k];</span><br><span class="line">      <span class="keyword">if</span>( a != b) dout[a] ++;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>连通分量编号递减的顺序一定为拓扑序，(不用多写一步拓扑排序)<ul>
+<li>证明：类似 tarjan 算法类似如下的 dfs 求 拓扑排序</li>
+<li>dfs 求拓扑排序，seq[N] 的逆序一定为拓扑排序<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> u 的所有邻点：</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">    seq &lt;- u</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>可证得，对于 seq 中每个点 u 其后继节点在 seq 中的位置一定在 u 的前面</li>
+</ul>
+</li>
+</ul>
+<p>例题：<a href="https://www.acwing.com/problem/content/1176/">1174. 受欢迎的牛</a></p>
+<h2 id="代码板子如下："><a href="#代码板子如下：" class="headerlink" title="代码板子如下："></a>代码板子如下：</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">10010</span>, M = <span class="number">50010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], w[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dfn[N], low[N], timestamp;</span><br><span class="line"><span class="type">int</span> stk[N], top;</span><br><span class="line"><span class="type">bool</span> in_stk[N];</span><br><span class="line"><span class="type">int</span> id[N], scc_cnt, scc_size[N];</span><br><span class="line"><span class="type">int</span> dout[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, ne[idx] = h[a], h[a] = idx ++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    dfn[u] = low[u] = ++ timestamp;</span><br><span class="line">    stk[ ++ top] = u, in_stk[u] = <span class="literal">true</span>; </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; ~i; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span>(!dfn[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">tarjan</span>(j);</span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], low[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(in_stk[j]) low[u] = <span class="built_in">min</span>(low[u], dfn[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(dfn[u] == low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        ++ scc_cnt;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            y = stk[top -- ];</span><br><span class="line">            in_stk[y] = <span class="literal">false</span>;</span><br><span class="line">            id[y] = scc_cnt;</span><br><span class="line">            scc_size[scc_cnt] ++;</span><br><span class="line">        &#125; <span class="keyword">while</span>(y != u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">        <span class="built_in">add</span>(a, b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(!dfn[i])</span><br><span class="line">            <span class="built_in">tarjan</span>(i);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = h[i]; ~j; j = ne[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> k = e[j];</span><br><span class="line">            <span class="type">int</span> a = id[i], b = id[k];</span><br><span class="line">            <span class="keyword">if</span>( a != b) dout[a] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="type">int</span> zeros = <span class="number">0</span>, sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= scc_cnt; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(!dout[i])</span><br><span class="line">        &#123;</span><br><span class="line">            zeros ++;</span><br><span class="line">            sum += scc_size[i];</span><br><span class="line">            <span class="keyword">if</span>(zeros &gt; <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                sum = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, sum);</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="常用结论及证明："><a href="#常用结论及证明：" class="headerlink" title="常用结论及证明："></a>常用结论及证明：</h2><blockquote>
+<p>结论一：设一个图是非强连通分量，且 tarjan 算法得到的入度为0的点，即起点为P个，出度为0的点，即终点为Q个，把该图变为强连通分量(缩点缩成一个点)，最少需要加几条边？</p>
+<p>答：最少需要新加 max(P, Q) 条边，特判掉若 P = Q == 1，则一个边都不用加。 </p>
+</blockquote>
+<h3 id="结论一证明："><a href="#结论一证明：" class="headerlink" title="结论一证明："></a>结论一证明：</h3><ul>
+<li>分析可知 P &lt;= Q 的情况 和 P &gt;= Q 的情况类似，所以下面我们只证明 P &lt;= Q 的情况</li>
+<li>当 P == 1 时，可知 P 可到达所有点，所以只需令 Q 个终点都与起点 P 连一条边，则所有路径的点都可以到达起点，即、所有点都可以到达所有点。答案为 Q ，满足 max(P, Q);</li>
+<li>当 P &gt; 1 时，可知 Q &gt;= P &gt; 1，则前提 1：必然可以找到两个起点 P1, P2 和两个终点 Q1, Q2，使得 P1 -&gt; …… -&gt; Q1, P2 -&gt; …… -&gt; Q2，一定成立。<ul>
+<li>简单证明前提 1：</li>
+<li>反证法：如果找不到这样的两个点，则必然 Pi -&gt; …… -&gt; Q1 (解释，所有点都走向了 Q1 这个终点，但我们的终点不止 1 个，即、Q &gt; 1，则与已知条件矛盾)，所以必然有 一个 Pj -&gt; …… -&gt; Q2。</li>
+</ul>
+</li>
+<li>从 Q1 连一条边向 P2 ，则 P —, Q — ，起点终点同时 -1。归纳为 加一条边 P, Q同时-1，若去掉 P - 1 次，则此时 P == 1，Q == Q - (P - 1)，此时由之前的 P == 1 的证明可知还需要再加 Q 条边，所以新加的边的总和为：P - 1 + Q - (P - 1) 即为 Q，满足 max(P, Q)</li>
+<li>两种情况都成立，故结论成立，得证！</li>
+</ul>
+<p>例题：<a href="https://www.acwing.com/problem/content/1177/">1175. 最大半连通子图</a></p>
+<blockquote>
+<p>思路：缩点后找最长链(tarjan的强连通分量 + 背包问题求方案数)</p>
+</blockquote>
+<p>例题：<a href="https://www.acwing.com/problem/content/370/">368. 银河</a></p>
+<blockquote>
+<p>思路：强连通分量找正环 + 拓扑排序求最长路 </p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>图论</category>
+        <category>有向图的强连通分量</category>
+      </categories>
+      <tags>
+        <tag>有向图的强连通分量</tag>
       </tags>
   </entry>
 </search>

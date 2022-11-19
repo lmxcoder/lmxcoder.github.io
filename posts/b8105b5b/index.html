@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>无向图的双连通分量(DCC) | Moench 的算法宝库</title><meta name="author" content="Moench"><meta name="copyright" content="Moench"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="无向图的双连通分量(DCC) 可分为 边双连通分量(e-DCC) 与 点双连通分量(v-DCC)  注意： 点双连通分量不一定是边双连通分量，边双连通分量也不一定是点双连通分量 割点与桥没有什么本质的关系 两个割点之间的边不一定是桥 一个桥的两个端点不一定是割点  边双连通分量(e-DCC)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无向图的双连通分量(DCC)">
+<meta property="og:url" content="https://lmxcoder.github.io/posts/b8105b5b/index.html">
+<meta property="og:site_name" content="Moench 的算法宝库">
+<meta property="og:description" content="无向图的双连通分量(DCC) 可分为 边双连通分量(e-DCC) 与 点双连通分量(v-DCC)  注意： 点双连通分量不一定是边双连通分量，边双连通分量也不一定是点双连通分量 割点与桥没有什么本质的关系 两个割点之间的边不一定是桥 一个桥的两个端点不一定是割点  边双连通分量(e-DCC)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lmxcoder.github.io/myimages/%E5%B8%85%E7%AC%A6%E5%8D%8E.jpg">
+<meta property="article:published_time" content="2022-11-19T14:17:42.000Z">
+<meta property="article:modified_time" content="2022-11-19T17:00:49.355Z">
+<meta property="article:author" content="Moench">
+<meta property="article:tag" content="无向图的双连通分量">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lmxcoder.github.io/myimages/%E5%B8%85%E7%AC%A6%E5%8D%8E.jpg"><link rel="shortcut icon" href="/myimages/favicon-16x16.png"><link rel="canonical" href="https://lmxcoder.github.io/posts/b8105b5b/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Moench","link":"链接: ","source":"来源: Moench 的算法宝库","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '无向图的双连通分量(DCC)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-20 01:00:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/myimages/my.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Moench 的算法宝库</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">无向图的双连通分量(DCC)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-19T14:17:42.000Z" title="发表于 2022-11-19 22:17:42">2022-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-19T17:00:49.355Z" title="更新于 2022-11-20 01:00:49">2022-11-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9B%BE%E8%AE%BA/">图论</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9B%BE%E8%AE%BA/%E6%97%A0%E5%90%91%E5%9B%BE%E7%9A%84%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/">无向图的双连通分量</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="无向图的双连通分量(DCC)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="无向图的双连通分量-DCC"><a href="#无向图的双连通分量-DCC" class="headerlink" title="无向图的双连通分量(DCC)"></a>无向图的双连通分量(DCC)</h1><blockquote>
+<p>可分为 边双连通分量(e-DCC) 与 点双连通分量(v-DCC)</p>
+</blockquote>
+<h2 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h2><ul>
+<li>点双连通分量不一定是边双连通分量，边双连通分量也不一定是点双连通分量</li>
+<li>割点与桥<strong>没有</strong>什么本质的关系</li>
+<li>两个割点之间的边不一定是桥</li>
+<li>一个桥的两个端点不一定是割点</li>
+</ul>
+<h2 id="边双连通分量-e-DCC"><a href="#边双连通分量-e-DCC" class="headerlink" title="边双连通分量(e-DCC)"></a>边双连通分量(e-DCC)</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>桥：一条无向边，若删除此边，整个图变得不连通，则称这条边为“桥”。</li>
+<li>边双连通分量：极大的不包含“桥”的连通块，则称为“边的双连通分量”</li>
+<li>性质：<ol>
+<li>无论删除哪一条边，整个图一定还是连通的</li>
+<li>任意两点之间一定包含两条不相交的路径(边不相交)。</li>
+</ol>
+</li>
+</ul>
+<h3 id="Tarjan算法求边的双连通分量"><a href="#Tarjan算法求边的双连通分量" class="headerlink" title="Tarjan算法求边的双连通分量"></a>Tarjan算法求边的双连通分量</h3><ul>
+<li>时间戳(timestamp)，dfn[N], low[N], 和有向图的强连通分量作用相同</li>
+<li>如何找到桥？<ul>
+<li>若子节点可以走到父节点或祖先节点，则从父节点到子节点的边不是桥，等价于，若边 x-y 为桥，则 dfn[x] &lt; low[y]</li>
+</ul>
+</li>
+<li>如何找到边双连通分量？<ul>
+<li>方法一：将所有桥删去</li>
+<li>方法二：类似于有向图的强连通分量的Tarjan算法，用栈(stk数组)维护，刚开始搜索加到栈里，若dfs[i] == low[i]的话(即、i的父节点到i这条边为桥)，则i当前所在的子树中的节点即为当前边的双连通分量中的点。</li>
+</ul>
+</li>
+</ul>
+<p><strong>例题：</strong><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/397/">395. 冗余路径</a></p>
+<p><strong>题意：</strong></p>
+<p>给定一个无向连通图，<br>问：最少加几条边，使得任何两点之间都至少有两条边；等价于，最少加几条边，可以将其变成边双连通分量。</p>
+<p><strong>结论1：</strong>任何两点之间都至少有两条边；等价于，此图为边双连通分量</p>
+<p><strong>证明1：</strong></p>
+<ul>
+<li>充分性：左 -&gt; 右<ul>
+<li>如果 任何两点之间都至少有两条边 则 此图是边双连通分量</li>
+<li>反证法：假设任何两点之间都包含两条互不相交的路径，如果其不是边的双连通分量，则意味着这个图中，至少存在一个桥。</li>
+<li>在桥两侧的连通块中任意找两个点x, y，则x到y的所有路径都经过桥这条边，所以x, y两点之间不存在两条互不相交的路径，与条件中的 任何两点直接按都包含两条互不相交的路径相矛盾，则假设不成立，原命题成立。</li>
+</ul>
+</li>
+<li>必要性：左 &lt;- 右<ul>
+<li>如果 此图是边双连通分量 则 任何两点之间都至少有两条边</li>
+<li>左可推：此图不含桥，假设两点 x, y 则 x, y 的最短路径为连接 x, y 的一条边，对于该边中的每一段边，都可以直到这个边不是桥，则两个连通块之间必定有两外一条边，，基本思路为如此，具体证明y也不太清楚hh。</li>
+</ul>
+</li>
+</ul>
+<p><strong>结论2：</strong>如果度数为 1 的点的个数为 cnt 个，则需要新加 (cnt + 1) / 2 条边，可以使得此图变为边的双连通分量。</p>
+<p><strong>证明2：</strong></p>
+<ul>
+<li>结论：</li>
+<li>证明 ans &gt;= (cnt + 1) / 2 : 若此图边为边的双连通分量，等价于所有点的度数 &gt;= 2 , 即、所有度数为 1 的点都至少需要加一条边，最优先的连边策略为两个度数为 1 的点连一条边，消除两个度数为 1 的点，如果剩余一个点，此点随便连一个点即可，如此新加的边的个数的最优策略为 cnt / 2上取整，等价于 (cnt + 1) / 2 下取整，即所求新加的边 ans &gt;= (cnt + 1) / 2 (最优解)。</li>
+<li>证明 ans == (cnt + 1) / 2 : 可知如果可以取到 (cnt + 1) / 2，则 我们所求的 ans == (cnt + 1) / 2; <ul>
+<li>边界：当 只有两个点时，加一条边即可，(2 + 1) / 2 == 1 成立</li>
+<li>至少有三个点：以一个度数至少为 2 的点为根节点，则所有度数为 1 的点都为叶子节点，两个叶子节点相连，剩余一个随便连，则新加的边的数量为 (cnt + 1) / 2，也成立。</li>
+</ul>
+</li>
+<li>大致证明为以上的叙述，，具体证明太麻烦，就此告一段落，记住结论即可。</li>
+</ul>
+<h3 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5010</span>, M = <span class="number">20010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dfn[N], low[N], timestamp;</span><br><span class="line"><span class="type">int</span> stk[N], top;</span><br><span class="line"><span class="type">int</span> dcc_id[N], dcc_cnt;</span><br><span class="line"><span class="type">bool</span> is_bridge[M];</span><br><span class="line"><span class="type">int</span> d[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, ne[idx] = h[a], h[a] = idx ++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// from 为u是从哪条边来的</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> from)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    dfn[u] = low[u] = ++ timestamp;</span><br><span class="line">    stk[ ++ top] = u;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; ~i; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span>(!dfn[j])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">tarjan</span>(j, i); <span class="comment">// i 为边的编号</span></span><br><span class="line">            <span class="comment">// 关于此处为什么判断边?</span></span><br><span class="line">            <span class="comment">// 首先不可武断的判断是否为父节点父节点，我们要找的是边的双连通分量，两点之间可以有多条</span></span><br><span class="line">            <span class="comment">// 边，可能从 x - y 之间有 a, b 两条边，从 a 边下来，又从 b 边上去，这是可行的，若直接</span></span><br><span class="line">            <span class="comment">// 判断点，则 b 边是不可走，错误。</span></span><br><span class="line"></span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], low[j]);</span><br><span class="line">            <span class="keyword">if</span>(dfn[u] &lt; low[j])</span><br><span class="line">                is_bridge[i] = is_bridge[i ^ <span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(i != (from ^ <span class="number">1</span>)) <span class="comment">// 边成对出现</span></span><br><span class="line">            low[u] = <span class="built_in">min</span>(low[u], dfn[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(dfn[u] == low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        ++ dcc_cnt;</span><br><span class="line">        <span class="type">int</span> y;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            y = stk[top -- ];</span><br><span class="line">            dcc_id[y] = dcc_cnt;</span><br><span class="line">        &#125; <span class="keyword">while</span>(y != u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        <span class="built_in">add</span>(a, b), <span class="built_in">add</span>(b, a);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">tarjan</span>(<span class="number">1</span>, <span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 直接判断所有边是不是桥，若是，则相邻的两条边的 e[i] 所在的 dcc_id都会加上 1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; idx; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(is_bridge[i])</span><br><span class="line">            d[dcc_id[e[i]]] ++;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= dcc_cnt; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(d[i] == <span class="number">1</span>) </span><br><span class="line">            cnt ++;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, (cnt + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="点双连通分量-v-DCC"><a href="#点双连通分量-v-DCC" class="headerlink" title="点双连通分量(v-DCC)"></a>点双连通分量(v-DCC)</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>割点：一个点，若删除此点，整个图变得不连通，则称这个点为“割点”</li>
+<li>点双连通分量：极大的不包含“割点”的连通块，则称为“点的双连通分量”。</li>
+<li>性质：<ol>
+<li>每一个割点都会至少属于两个点双连通分量。</li>
+</ol>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://lmxcoder.github.io">Moench</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lmxcoder.github.io/posts/b8105b5b/">https://lmxcoder.github.io/posts/b8105b5b/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lmxcoder.github.io" target="_blank">Moench 的算法宝库</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%97%A0%E5%90%91%E5%9B%BE%E7%9A%84%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/">无向图的双连通分量</a></div><div class="post_share"><div class="social-share" data-image="/myimages/%E5%B8%85%E7%AC%A6%E5%8D%8E.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/31194034/"><img class="next-cover" src="/myimages/HELLO-WORLD.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">有向图的强连通分量</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/myimages/my.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Moench</div><div class="author-info__description">万物静默如迷，时间就是谜底。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lmxcoder"><i class="fab fa-github"></i><span>My github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lmxcoder" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog, please praise more and criticize less !</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A0%E5%90%91%E5%9B%BE%E7%9A%84%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F-DCC"><span class="toc-number">1.</span> <span class="toc-text">无向图的双连通分量(DCC)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">注意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%B9%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F-e-DCC"><span class="toc-number">1.2.</span> <span class="toc-text">边双连通分量(e-DCC)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E6%B1%82%E8%BE%B9%E7%9A%84%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">Tarjan算法求边的双连通分量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-number">1.2.3.</span> <span class="toc-text">代码如下：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%B9%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F-v-DCC"><span class="toc-number">1.3.</span> <span class="toc-text">点双连通分量(v-DCC)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">介绍</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/b8105b5b/" title="无向图的双连通分量(DCC)"><img src="/myimages/%E5%B8%85%E7%AC%A6%E5%8D%8E.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无向图的双连通分量(DCC)"/></a><div class="content"><a class="title" href="/posts/b8105b5b/" title="无向图的双连通分量(DCC)">无向图的双连通分量(DCC)</a><time datetime="2022-11-19T14:17:42.000Z" title="发表于 2022-11-19 22:17:42">2022-11-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/31194034/" title="有向图的强连通分量"><img src="/myimages/HELLO-WORLD.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="有向图的强连通分量"/></a><div class="content"><a class="title" href="/posts/31194034/" title="有向图的强连通分量">有向图的强连通分量</a><time datetime="2022-11-18T08:16:00.000Z" title="发表于 2022-11-18 16:16:00">2022-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/eaed4358/" title="最近公共祖先(LCA问题)"><img src="/myimages/%E4%BA%BA%E5%BE%8B1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最近公共祖先(LCA问题)"/></a><div class="content"><a class="title" href="/posts/eaed4358/" title="最近公共祖先(LCA问题)">最近公共祖先(LCA问题)</a><time datetime="2022-11-17T10:46:29.000Z" title="发表于 2022-11-17 18:46:29">2022-11-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/417dcd30/" title="差分约束"><img src="/myimages/%E8%AF%86%E5%AE%9D.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="差分约束"/></a><div class="content"><a class="title" href="/posts/417dcd30/" title="差分约束">差分约束</a><time datetime="2022-11-16T14:35:11.000Z" title="发表于 2022-11-16 22:35:11">2022-11-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/40edd48c/" title="01分数规划"><img src="/myimages/%E4%BA%BA%E5%BE%8B0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="01分数规划"/></a><div class="content"><a class="title" href="/posts/40edd48c/" title="01分数规划">01分数规划</a><time datetime="2022-11-16T11:48:33.000Z" title="发表于 2022-11-16 19:48:33">2022-11-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Moench</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
