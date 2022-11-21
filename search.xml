@@ -588,7 +588,10 @@
 <p><strong>例题：</strong><a href="https://www.acwing.com/problem/content/397/">395. 冗余路径</a></p>
 <p><strong>题意：</strong></p>
 <p>给定一个无向连通图，<br>问：最少加几条边，使得任何两点之间都至少有两条边；等价于，最少加几条边，可以将其变成边双连通分量。</p>
-<p><strong>结论1：</strong>任何两点之间都至少有两条边；等价于，此图为边双连通分量</p>
+<p><strong>结论1：</strong></p>
+<blockquote>
+<p>任何两点之间都至少有两条边；等价于，此图为边双连通分量</p>
+</blockquote>
 <p><strong>证明1：</strong></p>
 <ul>
 <li>充分性：左 -&gt; 右<ul>
@@ -603,7 +606,10 @@
 </ul>
 </li>
 </ul>
-<p><strong>结论2：</strong>如果度数为 1 的点的个数为 cnt 个，则需要新加 (cnt + 1) / 2 条边，可以使得此图变为边的双连通分量。</p>
+<p><strong>结论2：</strong></p>
+<blockquote>
+<p>如果度数为 1 的点的个数为 cnt 个，则需要新加 (cnt + 1) / 2 条边，可以使得此图变为边的双连通分量。</p>
+</blockquote>
 <p><strong>证明2：</strong></p>
 <ul>
 <li>证明 ans &gt;= (cnt + 1) / 2 : 若此图边为边的双连通分量，等价于所有点的度数 &gt;= 2 , 即、所有度数为 1 的点都至少需要加一条边，最优先的连边策略为两个度数为 1 的点连一条边，消除两个度数为 1 的点，如果剩余一个点，此点随便连一个点即可，如此新加的边的个数的最优策略为 cnt / 2上取整，等价于 (cnt + 1) / 2 下取整，即所求新加的边 ans &gt;= (cnt + 1) / 2 (最优解)。</li>
@@ -766,6 +772,91 @@
       </categories>
       <tags>
         <tag>有向图的强连通分量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二分图</title>
+    <url>/posts/973bc934/</url>
+    <content><![CDATA[<h1 id="二分图"><a href="#二分图" class="headerlink" title="二分图"></a>二分图</h1><h2 id="染色法"><a href="#染色法" class="headerlink" title="染色法"></a>染色法</h2><h3 id="时间复杂度：O-n-m"><a href="#时间复杂度：O-n-m" class="headerlink" title="时间复杂度：O(n + m)"></a>时间复杂度：O(n + m)</h3><p><strong>算法实现：</strong>邻接表存储，dfs一遍，没染色，则染上色</p>
+<h3 id="结论1："><a href="#结论1：" class="headerlink" title="结论1："></a>结论1：</h3><blockquote>
+<p>一个图是二分图 == 图中不存在奇数环 == 染色法不存在矛盾</p>
+</blockquote>
+<p>p -&gt; q : p 是 q 的充分条件，q 是 p 的必要条件</p>
+<p>假设 如上三个条件为 a == b == c</p>
+<h3 id="证明1："><a href="#证明1：" class="headerlink" title="证明1："></a>证明1：</h3><ul>
+<li>b 直接推 a 不太容易，所以 b -&gt; c - &gt; a </li>
+<li>b -&gt; c ：<ul>
+<li>反证法：假设图中不存在奇数环 但 染色法出现了矛盾。</li>
+<li>假设第一个矛盾为两个白色相连，则在该连通块(环)中其他的点一定不存在矛盾，其染色一定为 白-黑-白-黑-……-白，首尾都为白，则符合我们的假设。如此一来，此连通块一定有奇数个点与已知反证法条件相矛盾，则原结论成立。</li>
+</ul>
+</li>
+<li>c -&gt; b : <ul>
+<li>反证法：如果染色的过程中不存在矛盾 但 图中存在奇数环</li>
+<li>假设一个环的头为白色，有因为其是奇数环，则其尾一定也为白色，首尾都是白色，所以该图存在矛盾，原结论成立。</li>
+</ul>
+</li>
+<li>(b, c) -&gt; a<ul>
+<li>因为染色法不存在矛盾，则 白黑 相间连接，把白色黑色分别拿出，则构成二分图。</li>
+</ul>
+</li>
+<li>a -&gt; (b, c)<ul>
+<li>反证法：假设一个图是二分图，但图中存在奇数环</li>
+<li>奇数环的任意一点出发，则与此点相连的点在另外一个集合中，依此类推，则最后会剩余两个相连的点，但却在同一个集合中，即、此图不是一个二分图，与反证法条件产生矛盾，则原结论成立。</li>
+</ul>
+</li>
+</ul>
+<p><strong>例题：</strong><a href="https://www.acwing.com/problem/content/259/">257. 关押罪犯</a></p>
+<p><strong>思路：</strong>二分 + 染色法</p>
+<ul>
+<li>二分的两段性：假设 x 为最优解，即、x -&gt; 右的边可以构成二分图，若 x 向右移动，仍然可以构成二分图(二分图去掉一些边仍然是二分图，减去一些限制，更自由了)，左边一定不成立，应为 x 为当前的最优解，所以若 check(mid) == true，则当前的图可以构成二分图，向左移动看是否可以构成二分图，若恰好可以构成，则为最优解。</li>
+</ul>
+<h3 id="染色法-代码模板："><a href="#染色法-代码模板：" class="headerlink" title="染色法-代码模板："></a>染色法-代码模板：</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> n;      <span class="comment">// n表示点数</span></span><br><span class="line"><span class="type">int</span> h[N], e[M], ne[M], idx;     <span class="comment">// 邻接表存储图</span></span><br><span class="line"><span class="type">int</span> color[N];       <span class="comment">// 表示每个点的颜色，0表示未染色，1表示白色，2表示黑色</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 参数：u表示当前节点，c表示当前点的颜色</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    color[u] = c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[u]; i != <span class="number">-1</span>; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span> (!color[j]) <span class="comment">// 没染色</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">dfs</span>(j, <span class="number">3</span> - c)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (color[j] == c) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(color, <span class="number">0</span>, <span class="keyword">sizeof</span> color);</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">if</span> (!color[i])</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">dfs</span>(i, <span class="number">1</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                flag = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="匈牙利算法-增广路算法"><a href="#匈牙利算法-增广路算法" class="headerlink" title="匈牙利算法(增广路算法)"></a>匈牙利算法(增广路算法)</h2><h3 id="时间复杂度：O-mn"><a href="#时间复杂度：O-mn" class="headerlink" title="时间复杂度：O(mn)"></a>时间复杂度：O(mn)</h3><p><strong>作用：</strong>求二分图最大匹配数目</p>
+<p><strong>思路：</strong>枚举一边，如果重复，看上一个能不能换</p>
+<h3 id="基本概念-针对二分图所言"><a href="#基本概念-针对二分图所言" class="headerlink" title="基本概念(针对二分图所言)"></a>基本概念(针对二分图所言)</h3><ul>
+<li>匹配：”任意两条边都没有公共端点”的边的集合，被称为图的一组匹配</li>
+<li>最大匹配：包含边数最多的一组匹配，被称为二分图的最大匹配</li>
+<li>匹配点：在匹配中的点</li>
+<li>非匹配点：不在匹配中的点</li>
+<li>增广路径：从非匹配点走，非匹配边，匹配边，非匹配边，匹配边，最终通过非匹配边走到了非匹配点，则该路径称为增广路径，增广路径可以使匹配的边数 + 1，匹配的点数 + 2</li>
+</ul>
+<h3 id="结论1：-1"><a href="#结论1：-1" class="headerlink" title="结论1："></a>结论1：</h3><blockquote>
+<p>一个匹配是最大匹配 == 不存在增广路径</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> n1, n2;  <span class="comment">// n1表示第一个集合中的点数，n2表示第二个集合中的点数</span></span><br><span class="line"><span class="type">int</span> h[N], e[M], ne[M], idx;  <span class="comment">// 邻接表存储所有边，匈牙利算法中只会用到从第一个集合指向第二个集</span></span><br><span class="line">                             <span class="comment">// 合的边，所以这里只用存一个方向的边</span></span><br><span class="line"><span class="type">int</span> match[N];  <span class="comment">// 存储第二个集合中的每个点当前匹配的第一个集合中的点是哪个</span></span><br><span class="line"><span class="type">bool</span> st[N];  <span class="comment">// 表示第二个集合中的每个点是否已经被遍历过</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = h[x]; i != <span class="number">-1</span>; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="keyword">if</span> (!st[j])</span><br><span class="line">        &#123;</span><br><span class="line">            st[j] = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">if</span> (match[j] == <span class="number">0</span> || <span class="built_in">find</span>(match[j]))</span><br><span class="line">            &#123;</span><br><span class="line">                match[j] = x;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 求最大匹配数，依次枚举第一个集合中的每个点能否匹配第二个集合中的点</span></span><br><span class="line"><span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n1; i ++ )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">memset</span>(st, <span class="literal">false</span>, <span class="keyword">sizeof</span> st);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">find</span>(i)) res ++ ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二分图的覆盖与独立集"><a href="#二分图的覆盖与独立集" class="headerlink" title="二分图的覆盖与独立集"></a>二分图的覆盖与独立集</h2><p>包含的概念：最小点覆盖，最大独立集，最小路径点覆盖(最小路径重复点覆盖)</p>
+<blockquote>
+<p>结论：<strong>在二分图中</strong> 最大匹配数 == 最小点覆盖 == 总点数 - 最大独立集 == 总点数 - 最小路径点覆盖</p>
+</blockquote>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>最小点覆盖：给定一个图，求一个最小的点集 S ，使得图中任意一条边都至少一个端点属于 S。 </li>
+</ul>
+<h3 id="结论1-："><a href="#结论1-：" class="headerlink" title="结论1 ："></a>结论1 ：</h3><blockquote>
+<p>在二分图中：最小点覆盖 == 最大匹配数</p>
+</blockquote>
+<h3 id="证明1：-1"><a href="#证明1：-1" class="headerlink" title="证明1："></a>证明1：</h3><ul>
+<li>最小点覆盖 &gt;= 最大匹配数:<ul>
+<li>一条边至少要选一个点，所以 最小点覆盖一定 &gt;= 最大匹配数</li>
+</ul>
+</li>
+<li>最小点覆盖 == 最大匹配数：(证明<strong>等号</strong>可以成立) (构造)<ul>
+<li>步骤如下：</li>
+</ul>
+<ol>
+<li>求最大匹配</li>
+<li>从左部每个非匹配点出发</li>
+</ol>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>图论</category>
+        <category>二分图</category>
+      </categories>
+      <tags>
+        <tag>二分图</tag>
+        <tag>染色法</tag>
+        <tag>匈牙利算法</tag>
       </tags>
   </entry>
 </search>
