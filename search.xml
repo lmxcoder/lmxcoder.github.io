@@ -910,4 +910,52 @@
         <tag>匈牙利算法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>欧拉回路和欧拉路径</title>
+    <url>/posts/903ad369/</url>
+    <content><![CDATA[<h1 id="欧拉回路和欧拉路径"><a href="#欧拉回路和欧拉路径" class="headerlink" title="欧拉回路和欧拉路径"></a>欧拉回路和欧拉路径</h1><p><strong>引入：</strong>哥尼斯堡七桥问题</p>
+<p>欧拉路径 == 一笔画问题</p>
+<h2 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h2><ul>
+<li>欧拉路径<ul>
+<li>起点终点 度数为奇数</li>
+<li>中间顶 度数为偶数</li>
+</ul>
+</li>
+<li>对于无向图，所有边都是连通的<ul>
+<li>存在欧拉路径的充分必要条件：度数(入读 + 出度)为奇数的点只能由0或2个。</li>
+<li>存在欧拉回路的充分必要条件：度数为奇数的点为0个。</li>
+</ul>
+</li>
+<li>对于有向图，所有边都是连通的<ul>
+<li>存在欧拉路径的充分必要条件：所有点的出度均等于入度 或 除了两个点以外，其余所有点出度等于入度，剩余两个点 一个满足出度比入度多1（起点），一个满足入度比出度多1（终点）</li>
+<li>存在欧拉回路的充分必要条件：所有点的出度均等于入度</li>
+</ul>
+</li>
+</ul>
+<h2 id="证明："><a href="#证明：" class="headerlink" title="证明："></a>证明：</h2><ul>
+<li>左 -&gt; 右：已证明，右边本就是由左边推来的。</li>
+<li>左 &lt;- 右：构造一种方案合法，即可证明<ul>
+<li>直接 DFS ，遇到回路则进去转一圈出来，则一定可以走到终点，最终路径为一条线挂着许多环。 </li>
+</ul>
+</li>
+</ul>
+<h2 id="算法实现："><a href="#算法实现：" class="headerlink" title="算法实现："></a>算法实现：</h2><p>seq数组保存路径，最终的路径是 seq 的逆序。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">for</span> 从 u 出发的所有边</span><br><span class="line">    <span class="built_in">dfs</span>() <span class="comment">// 扩展</span></span><br><span class="line">seq &lt;- u</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>欧拉回路的 dfs 遍历时，用边判重(used数组)，会导致时间复杂度较高(平方级别)，优化为 遍历一条边，删去一条边，即可保证为线性的复杂度。</p>
+<p><strong>例题：</strong> <a href="https://www.acwing.com/problem/content/1126/">1124. 骑马修栅栏</a></p>
+<p><strong>思路：</strong>欧拉回路找最小字典序即可</p>
+<blockquote>
+<p>如何保证最小字典序，从最小的点开始走</p>
+</blockquote>
+<p><strong>代码如下：</strong><br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">510</span>, M = <span class="number">2100</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n = <span class="number">500</span>, m;</span><br><span class="line"><span class="type">int</span> g[N][N];</span><br><span class="line"><span class="type">int</span> d[N];</span><br><span class="line"><span class="type">int</span> ans[M], cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(g[u][i])</span><br><span class="line">        &#123;</span><br><span class="line">            g[u][i] --, g[i][u] --;</span><br><span class="line">            <span class="built_in">dfs</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">    ans[ ++ cnt] = u;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; m;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        g[a][b] ++, g[b][a] ++;</span><br><span class="line">        d[a] ++, d[b] ++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> start = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(!d[start]) start ++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(d[i] % <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            start = i;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="built_in">dfs</span>(start);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = cnt; i; i -- )</span><br><span class="line">        cout &lt;&lt; ans[i] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>图论</category>
+        <category>欧拉回路</category>
+      </categories>
+      <tags>
+        <tag>欧拉回路</tag>
+        <tag>欧拉路径</tag>
+      </tags>
+  </entry>
 </search>
