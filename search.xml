@@ -958,4 +958,27 @@
         <tag>欧拉路径</tag>
       </tags>
   </entry>
+  <entry>
+    <title>拓扑排序</title>
+    <url>/posts/fb40efc5/</url>
+    <content><![CDATA[<h1 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h1><h2 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h2><ul>
+<li>在一个有向图中，对所有节点排序后，对于每一条边都是前面指向后面，没有由后面指向前面的边，则称新的序列为有向图的拓扑排序。若有向图存在环，必然没有拓扑排序；若有向图无环，则必然存在一个拓扑排序。</li>
+<li>如果一个图是可以拓扑排序的，则称此图为拓扑图 == 有向无环图(DAG)</li>
+</ul>
+<h2 id="算法实现："><a href="#算法实现：" class="headerlink" title="算法实现："></a>算法实现：</h2><ul>
+<li>将所有入读为0的点入队<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (q 非空)</span><br><span class="line">&#123;</span><br><span class="line">  t &lt;- q的头节点</span><br><span class="line">  <span class="keyword">for</span> t 的所有出边 t -&gt; j</span><br><span class="line">  &#123;</span><br><span class="line">      -- d[j];</span><br><span class="line">      <span class="keyword">if</span> (d[j] == <span class="number">0</span>) q &lt;- j;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="算法模板如下："><a href="#算法模板如下：" class="headerlink" title="算法模板如下："></a>算法模板如下：</h2><p>如果求字典序最小的拓扑排序，将 队列换成优先队列即可。</p>
+<p>当前队列的元素为 度数为0 的点，当前序列中的点一定为</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">topsort</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> hh = <span class="number">0</span>, tt = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">        <span class="keyword">if</span>(!d[i])</span><br><span class="line">            q[ ++ tt] = i;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(hh &lt;= tt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = q[hh ++ ];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = h[t]; ~i; i = ne[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j = e[i];</span><br><span class="line">            <span class="keyword">if</span>( -- d[j] == <span class="number">0</span>)</span><br><span class="line">                q[ ++ tt] = j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>图论</category>
+        <category>拓扑排序</category>
+      </categories>
+      <tags>
+        <tag>拓扑排序</tag>
+        <tag>关键路径</tag>
+      </tags>
+  </entry>
 </search>
