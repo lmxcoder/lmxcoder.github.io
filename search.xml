@@ -981,4 +981,22 @@
         <tag>关键路径</tag>
       </tags>
   </entry>
+  <entry>
+    <title>算法杂项</title>
+    <url>/posts/66485649/</url>
+    <content><![CDATA[<h1 id="算法杂项"><a href="#算法杂项" class="headerlink" title="算法杂项"></a>算法杂项</h1><h2 id="平面直角坐标系部分"><a href="#平面直角坐标系部分" class="headerlink" title="平面直角坐标系部分"></a>平面直角坐标系部分</h2><h3 id="两点-x1-y1-x2-y2-的连线上的整点数-："><a href="#两点-x1-y1-x2-y2-的连线上的整点数-：" class="headerlink" title="两点(x1, y1)(x2, y2)的连线上的整点数 ："></a>两点(x1, y1)(x2, y2)的连线上的整点数 ：</h3><blockquote>
+<p><strong>结论：</strong> abs(gcd(x1 - x2, y1 - y2))</p>
+</blockquote>
+<p><strong>证明</strong> </p>
+<ul>
+<li>将该直线其中一点移动到原点(0, 0)，另一点为(a, b)，则该直线斜率为 b’ / a’ (约分过)，则该支线上的所有点一定为 k * (b’ / a’)，k 可取 1, 2, 3, …… , gcd(a, b)。化为原坐标即为 gcd(x1 - x2, y1 - y2),因为 gcd 函数可能得负数，所以取 绝对值 abs</li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
+      </tags>
+  </entry>
 </search>
