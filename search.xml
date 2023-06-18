@@ -1056,13 +1056,13 @@
 <p>E-R图: (Entity - Relationship diagram) 实体-联系图</p>
 <h1 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h1><h2 id="概念部分-1"><a href="#概念部分-1" class="headerlink" title="概念部分"></a>概念部分</h2><p>域: 相同数据类型的集合</p>
 <p>笛卡尔积: 所有域的所有取值的一个组合</p>
-<p>关系: 笛卡尔积的子集</p>
+<p>关系: 笛卡尔积的子集 = 元组的集合</p>
 <p>元组: 笛卡尔积中的每一个元素, 关系中的每个元素是关系中的元组</p>
 <p>属性: 关系中不同列可以对应相同的域, 为了加以区分，必须对每列起一个名字，称为属性</p>
 <p>键: 建立和标识表之间的关系,也用于唯一标识表中的任何记录或数据行</p>
 <p>候选键: 若关系中的某一属性组的值能唯一地标识一个元组，则称该属性组为候选码</p>
 <p>主键: 若一个关系有多个候选码，则选定其中一个为主码（Primary key）</p>
-<p>外键: 外部关键字, 不是本表的主键, 但是其他表的主键</p>
+<p>外键: 外部关键字, 不是本表的键, 但是其他表的键</p>
 <p>数据模型的三个组成部分:</p>
 <ul>
 <li>数据结构</li>
@@ -1070,7 +1070,61 @@
 <li>完整性约束</li>
 </ul>
 <p>关系模型的三要素:</p>
-]]></content>
+<ol>
+<li>关系结构</li>
+<li>关系操作</li>
+<li>关系三类完整性约束条件<ul>
+<li>实体完整性</li>
+<li>参照完整性</li>
+<li>用户自定义的完整性</li>
+</ul>
+</li>
+</ol>
+<p>参照完整性中外键什么时候可以取空值，什么时候不能取空值 ? </p>
+<p>答: 如果外键是键的一部分就不能取空值</p>
+<p>关系代数部分:<br>模板:</p>
+<ul>
+<li>π 列名1, 列名2 σ 限制1 ∧ 限制2 (表1 ∞ 表2 ∞ 表3)</li>
+</ul>
+<p>注意:</p>
+<ul>
+<li>&lt;&gt; 不等于符号</li>
+<li>➗ 用于至少, 或全部</li>
+</ul>
+<p>关系 = 二维表, 属性一列, 元组一行</p>
+<h1 id="第三章-SQL"><a href="#第三章-SQL" class="headerlink" title="第三章 SQL"></a>第三章 SQL</h1><h2 id="定义语句"><a href="#定义语句" class="headerlink" title="定义语句:"></a>定义语句:</h2><p>create table, drop table<br>注意: </p>
+<ul>
+<li>primary key</li>
+<li>foreign key</li>
+<li>check, not null, unique</li>
+<li>组合键: primary key (1, 2, 3)</li>
+<li>外键: foreign key (列名) references 表名(列名)</li>
+<li>约束: constraint 约束名 check(约束条件)</li>
+<li>alter table 表名<br>add constraint 约束名 check(约束条件)</li>
+</ul>
+<h2 id="操纵语句"><a href="#操纵语句" class="headerlink" title="操纵语句:"></a>操纵语句:</h2><ul>
+<li>insert into 表名(列名1, 列名2, 列名3)<br>values (‘’, ‘’, ‘’)</li>
+<li>delete<br>from 表名<br>where 条件</li>
+<li>update 表名<br>set (列名1 = ‘’, 列名2 = ‘’, 列名3 = ‘’)</li>
+<li>select *<br>from 表 (inner join 表 on 条件)<br>where 条件<br>group by 列名</li>
+<li>create view </li>
+</ul>
+<p>注意:</p>
+<ul>
+<li>order by () asc, 升序, desc 降序</li>
+<li>group by 分组</li>
+<li>having count(type) &gt;= 5</li>
+</ul>
+<p>视图部分: </p>
+<p>所有的视图是否都可以更新？为什么？</p>
+<ul>
+<li>答:不是。视图是不实际存储数据的虚表，因此对视图的更新，最终要转换为对基本表的更<br>新。因为有些视图的更新不能惟一有意义地转换成对相应基本表的更新，所以，并不是所有<br>的视图都是可更新的.</li>
+</ul>
+<p>哪类视图是可以更新的？哪类视图是不可更新的？各举一例说明。</p>
+<ul>
+<li>答：基本表的行列子集视图一般是可更新的。若视图的属性来自集函数、表达式，则该视图<br>肯定是不可以更新的。</li>
+</ul>
+<h1 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h1>]]></content>
       <categories>
         <category>期末复习</category>
       </categories>
