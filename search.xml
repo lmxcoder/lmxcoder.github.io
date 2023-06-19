@@ -1181,6 +1181,38 @@
 <li>违反 <strong>实体完整性</strong> 和 <strong>用户定义的完整性</strong> 时, 一般采用拒绝执行。</li>
 <li>对于违反<strong>参照完整性</strong>的操作, 并不都是简单的拒绝执行, 有时要根据应用语义执行一些附加的操作, 以保证数据库的正确性(可能会 级联删除( CASCADES ) ; 受限删除( RESTRICTED ) ; 置空值删除( NULLIFIES ))。</li>
 </ul>
+<h1 id="第六章"><a href="#第六章" class="headerlink" title="第六章"></a>第六章</h1><p>不规范的模式引发的问题: </p>
+<ul>
+<li>原因是函数依赖</li>
+</ul>
+<p>函数依赖:</p>
+<ul>
+<li>依赖 = 蕴含(离散数学 “-&gt;”), True: 1-&gt;1, 0-&gt;1, 0-&gt;0; False: 1-&gt;0</li>
+<li>如果 X-&gt;Y, 但 Y 不包含于 X, 则称 X-&gt;Y 是<strong>非平凡的函数依赖</strong><br>如果 X-&gt;Y, 但 Y 不包含于 X, 则称 X-&gt;Y 是<strong>平凡的函数依赖</strong><br>如果无特别说明, 则为 <strong>非平凡的函数依赖</strong></li>
+</ul>
+<p>判定范式: </p>
+<ul>
+<li>1NF: 不存在复合表</li>
+<li>2NF: 所有非主属性都完全依赖于主键</li>
+<li>3NF: 所有非主属性不传递依赖于其他非主属性</li>
+<li>BCNF: 所有非主属性都完全依赖于候选键</li>
+</ul>
+<p>特判情况: </p>
+<ol>
+<li>任何一个二目关系是属于3NF: 因为关系模式中只有两个属性, 所以无传递</li>
+<li>任何一个二目关系是属于BCNF: 按BCNF的定义, 若X, Y且Y不是X的子集时, 每个决定因素都包含码, 对于二目关系决定因素必然包含码</li>
+<li>所有键为单属性的关系模式至少属于2NF: 因为键为单属性, 不会存在非主属性对键的部分依赖</li>
+</ol>
+<h1 id="第七章"><a href="#第七章" class="headerlink" title="第七章"></a>第七章</h1><p>数据库设计的六个步骤:</p>
+<ol>
+<li>需求分析</li>
+<li>概念结构设计</li>
+<li>逻辑结构设计</li>
+<li>数据库物理设计</li>
+<li>数据库实施</li>
+<li>数据库运行和维护</li>
+</ol>
+<p>E-R图 -&gt; 设计表 -&gt; 判定范式</p>
 ]]></content>
       <categories>
         <category>期末复习</category>
