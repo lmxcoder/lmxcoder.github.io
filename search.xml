@@ -1574,8 +1574,39 @@
 <ol>
 <li>先把路由表C, 距离全部+1, 下一跳全部为C</li>
 <li>根据C, 更新B中对应目的网络的距离和下一跳, 更新的依据在上面, (无则更新, 下一跳相同则更新, 当前距离小于原表距离则更新) </li>
-<li>习题: <a href="!https://www.bilibili.com/video/BV1M84y1n7To/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2c230dd0ea0ef62177baa1492c6409fe">计算机网络习题-RIP路由表更新</a></li>
+<li>习题: <a href="https://www.bilibili.com/video/BV1M84y1n7To/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2c230dd0ea0ef62177baa1492c6409fe">计算机网络习题-RIP路由表更新</a></li>
 </ol>
+<h1 id="第五章-运输层"><a href="#第五章-运输层" class="headerlink" title="第五章 运输层"></a>第五章 运输层</h1><blockquote>
+<p>论述TCP协议与UDP协议的区别；</p>
+</blockquote>
+<ul>
+<li>UDP: <ol>
+<li>传送数据之前不需要先建立连接</li>
+<li>收到 UDP报 后, 不需要给出任何确认</li>
+<li>不提供可靠交付, 但是一种最有效的工作方式</li>
+</ol>
+<ul>
+<li>举例: 域名解析服务DNS, 路由选择RIP, 文件传输TFTP,  </li>
+</ul>
+</li>
+<li>TCP:<ol>
+<li>提供可靠的, 面向连接的运输服务</li>
+<li>不提供广播或多播服务</li>
+<li>开销较多</li>
+</ol>
+<ul>
+<li>万维网(WWW)HTTP, 电子邮件SMTP, 文件传输FTP, </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>为什么说UDP是面向报文的，而TCP是面向字节流的；</p>
+<p>停止等待协议和连续ARQ协议的工作原理；</p>
+<p>TCP可靠传输是如何实现的；</p>
+<p>简述流量控制与拥塞控制的区别是什么；</p>
+<p>TCP的拥塞控制方法有哪些；</p>
+<p>TCP是如何建立连接的，画出TCP建立连接的过程图。</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>期末复习</category>
