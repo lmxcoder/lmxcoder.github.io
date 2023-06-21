@@ -1669,8 +1669,9 @@
 <li>快恢复: 在快重传的情况下，TCP会进入快恢复状态，此时将拥塞窗口大小减半，然后进入拥塞避免状态。这样可以避免因快速重传引起的网络拥塞。</li>
 </ol>
 <blockquote>
-<p>TCP是如何建立连接的，画出TCP建立连接的过程图。<br><img src="../myimages/../../public/myimages/三次握手0.png" alt="三次握手0"><br><img src="../myimages/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.jpg" alt="三次握手"></p>
+<p>TCP是如何建立连接的，画出TCP建立连接的过程图。</p>
 </blockquote>
+<p><img src="../myimages/../../public/myimages/三次握手0.png" alt="三次握手0"><br><img src="../myimages/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.jpg" alt="三次握手"></p>
 <p>SYN: 同步字段</p>
 <ul>
 <li>1: 表示建立连接的过程</li>
@@ -1765,6 +1766,52 @@
       </categories>
       <tags>
         <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构-期末复习</title>
+    <url>/posts/93f21a/</url>
+    <content><![CDATA[<blockquote>
+<p>栈和队列的异同点</p>
+</blockquote>
+<p>栈和队列都是加了限制的线性表,栈是先进后出表,队列是先进先出表。栈和队列的插入和删除操作都在端点进行,栈的插入和删除在同一端点,队列的插入和删除在不同的端点进行。</p>
+<blockquote>
+<p>首元结点, 头结点, 头指针的区别</p>
+</blockquote>
+<ol>
+<li>首元结点（First Node）：链表中的首元结点是指链表中第一个实际存储数据的结点。它是链表中第一个具有数据域和指针域的结点，用来存储链表中的第一个元素。</li>
+<li>头结点（Head Node）：头结点是在链表中添加的一个额外的结点，位于链表的前面，不存储实际的数据。头结点的作用是为了方便链表的操作和管理，它可以包含一些附加信息，如链表的长度等。</li>
+<li><p>头指针（Head Pointer）：头指针是指向头结点的指针，它是链表的入口。通过头指针，可以找到整个链表的起始位置。头指针用来记录链表的基地址，在进行链表的遍历、插入、删除等操作时，可以通过头指针来进行操作。</p>
+</li>
+<li><p>首元结点是链表中的第一个实际存储数据的结点。</p>
+</li>
+<li>头结点是在链表中添加的一个额外结点，用于方便链表的操作和管理，不存储实际的数据。</li>
+<li>头指针是指向头结点的指针，用来记录链表的基地址。</li>
+</ol>
+<blockquote>
+<p>哈希表</p>
+</blockquote>
+<p>假设哈希表长为m，p为小于等于m的最大质数，则哈希函数为<br>H(key) = key % p</p>
+<p>哈希表平均查找长度</p>
+<p>查找成功的平均查找长度:<br>ASLsucc = 查找次数 / 元素个数</p>
+<p>查找失败的平均查找长度:<br>ASLunsucc = 查找次数 /  散列后的地址长度(p)</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>英语单词</title>
+    <url>/posts/4c41b4ff/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>English</category>
+      </categories>
+      <tags>
+        <tag>英语单词</tag>
       </tags>
   </entry>
 </search>
