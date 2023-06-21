@@ -1775,7 +1775,11 @@
 <p>栈的排列方式:</p>
 </blockquote>
 <p>n个不同的元素进栈, 出栈元素不同排列的个数为 </p>
-<p>$\frac{1}{n+1}C_{n+1}^n$</p>
+<p>$\frac{1}{n+1}C_{2n}^n$</p>
+<blockquote>
+<p>堆顶栈</p>
+</blockquote>
+<p>栈满条件: top0 + 1 = top1 (无论是否从0或1开始)</p>
 <blockquote>
 <p>栈和队列的异同点</p>
 </blockquote>
