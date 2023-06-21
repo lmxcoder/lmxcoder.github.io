@@ -1771,7 +1771,12 @@
   <entry>
     <title>数据结构-期末复习</title>
     <url>/posts/93f21a/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><blockquote>
+<p>栈的排列方式:</p>
+</blockquote>
+<p>n个不同的元素进栈, 出栈元素不同排列的个数为 </p>
+<p>$\frac{1}{n+1}C_{n+1}^n$</p>
+<blockquote>
 <p>栈和队列的异同点</p>
 </blockquote>
 <p>栈和队列都是加了限制的线性表,栈是先进后出表,队列是先进先出表。栈和队列的插入和删除操作都在端点进行,栈的插入和删除在同一端点,队列的插入和删除在不同的端点进行。</p>
