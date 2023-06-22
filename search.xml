@@ -795,7 +795,22 @@
 <p>哈希表平均查找长度</p>
 <p>查找成功的平均查找长度:<br>ASLsucc = 查找次数 / 元素个数</p>
 <p>查找失败的平均查找长度:<br>ASLunsucc = 查找次数 /  散列后的地址长度(p)</p>
-]]></content>
+<blockquote>
+<p>拓扑排序 </p>
+<p>关联路径求法: </p>
+</blockquote>
+<p><a href="https://blog.csdn.net/qq_44528283/article/details/120384101">看这篇博客理解</a></p>
+<p>具体步骤: </p>
+<ol>
+<li>令ve(源点) = 0, 求最早的发生时间ve()</li>
+<li>令vl(汇点) = ve(汇点), 求最迟的发生时间vl()</li>
+<li>根据ve()值求所有点的最早开始时间ve()</li>
+<li>根据每个点的最早开始时间ve(), 求弧的最早开始时间e()</li>
+<li>根据vl()值求所有点的最迟开始时间vl()</li>
+<li>根据每个点的最迟开始时间vl(), 求弧的最迟开始时间l()</li>
+<li>求AOE网中所有活动的差额d(), 找出所有 d() = 0 的活动构成关键路径</li>
+</ol>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1>]]></content>
       <categories>
         <category>数据结构</category>
       </categories>
