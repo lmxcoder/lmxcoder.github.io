@@ -810,7 +810,15 @@
 <li>根据每个点的最迟开始时间vl(), 求弧的最迟开始时间l()</li>
 <li>求AOE网中所有活动的差额d(), 找出所有 d() = 0 的活动构成关键路径</li>
 </ol>
-<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1>]]></content>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><blockquote>
+<p>如何判断序列是否执行了快速排序: </p>
+</blockquote>
+<p>要点: 每经过一次快速排序, 轴点元素都必然就位。也就是说, 一趟排序至少有一个元素在其最终位置上</p>
+<p><a href="https://blog.csdn.net/sinat_42483341/article/details/109281275">快速排序判断</a></p>
+<p>最终排序位置是：2, 5, 12, 16, 28, 32, 60, 72，而选项中正确的位置有：</p>
+<p>A. 5, 2, 16, 12, 28, 60, 32, 72<br>B. 2, 16, 5, 28, 12, 60, 32, 72<br>C. 2, 12, 16, 5, 28, 32, 72, 60<br>D. 5, 2, 12, 28, 16, 32, 72, 60</p>
+<p>第一趟排序，确定一个元素位置<br>第二趟排序，又确定一个或两个元素位置<br>当第一趟元素确认的位置为最左或最右时，第二趟排序只能确认一个位置（A，B选项情况）<br>当第一趟元素确认位置不是最左或最右时，第二趟能确认2个位置（C选项情况）</p>
+]]></content>
       <categories>
         <category>数据结构</category>
       </categories>
@@ -1306,29 +1314,25 @@
   <entry>
     <title>英语单词</title>
     <url>/posts/4c41b4ff/</url>
-    <content><![CDATA[<h3 id="2023-6-22"><a href="#2023-6-22" class="headerlink" title="2023/6/22"></a>2023/6/22</h3><blockquote>
-<p>convenient : adj. 方便的</p>
-<p>convince : v. 使信服</p>
-<p>conventional : adj. 墨守成规的, 传统的</p>
-<p>2</p>
-<ul>
-<li>facilitate : v. 促进, 使便利</li>
-<li>facility : n. 设备</li>
-</ul>
-</blockquote>
-<p>&gt;</p>
-<ul>
-<li>rarely : adv. 少见的</li>
-<li>barely : adv. 几乎, 仅仅</li>
-</ul>
-<p>&gt;</p>
-<ul>
-<li>reserve : v. 预定 -&gt; reserved : adj. 内敛的</li>
-<li>reverse : v. 反转</li>
-</ul>
-<p>&gt;</p>
-<ul>
-<li>subsequent : adj. 随后的, 后来的</li>
+    <content><![CDATA[<h3 id="2023-6-22"><a href="#2023-6-22" class="headerlink" title="2023/6/22"></a>2023/6/22</h3><ul>
+<li>convenient : adj. 方便的</li>
+<li>convince : v. 使信服</li>
+<li><p>conventional : adj. 墨守成规的, 传统的</p>
+</li>
+<li><p>facilitate : v. 促进, 使便利</p>
+</li>
+<li><p>facility : n. 设备</p>
+</li>
+<li><p>rarely : adv. 少见的</p>
+</li>
+<li><p>barely : adv. 几乎, 仅仅</p>
+</li>
+<li><p>reserve : v. 预定 -&gt; reserved : adj. 内敛的</p>
+</li>
+<li><p>reverse : v. 反转</p>
+</li>
+<li><p>subsequent : adj. 随后的, 后来的</p>
+</li>
 <li><p>substantial : adj. 大量的</p>
 </li>
 <li><p>shot : n. 尝试, 注射</p>
@@ -1353,7 +1357,35 @@
 </li>
 <li><p>pole : n. 杆子, 地极</p>
 </li>
-<li>pile : n. 一摞</li>
+<li><p>pile : n. 一摞</p>
+</li>
+<li><p>field : n. 田, 地</p>
+</li>
+<li><p>yield : v. 出产, 产生</p>
+</li>
+<li><p>publish : v. 出版</p>
+</li>
+<li>polish : v. 擦光, 磨光</li>
+</ul>
+<h3 id="2023-6-23"><a href="#2023-6-23" class="headerlink" title="2023/6/23"></a>2023/6/23</h3><ul>
+<li>patch : n. 小块, 斑点</li>
+<li><p>pitch : n. 球场, 高音, 沥青</p>
+</li>
+<li><p>regulate : v. 管理, 约束</p>
+</li>
+<li><p>regular : adj. 有规律的, 频繁的</p>
+</li>
+<li><p>commit : v. 犯罪 / 忠心</p>
+</li>
+<li><p>commission : n. 委员会; v. 正式委托</p>
+</li>
+<li><p>conservation : n. 保护, 节约</p>
+</li>
+<li><p>conversation : n. 交谈, 谈话</p>
+</li>
+<li><p>treat : v. 治疗</p>
+</li>
+<li>retreat : v. 撤退</li>
 </ul>
 ]]></content>
       <categories>
