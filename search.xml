@@ -807,6 +807,7 @@
 <p>拓扑排序 </p>
 <p>关联路径求法: </p>
 </blockquote>
+<p><img src="../myimages/关键路径.png" alt="关键路径"></p>
 <p><a href="https://blog.csdn.net/qq_44528283/article/details/120384101">看这篇博客理解</a></p>
 <p>具体步骤: </p>
 <ol>
@@ -826,6 +827,7 @@
 <p>最终排序位置是：2, 5, 12, 16, 28, 32, 60, 72，而选项中正确的位置有：</p>
 <p>A. 5, 2, 16, 12, 28, 60, 32, 72<br>B. 2, 16, 5, 28, 12, 60, 32, 72<br>C. 2, 12, 16, 5, 28, 32, 72, 60<br>D. 5, 2, 12, 28, 16, 32, 72, 60</p>
 <p>第一趟排序，确定一个元素位置<br>第二趟排序，又确定一个或两个元素位置<br>当第一趟元素确认的位置为最左或最右时，第二趟排序只能确认一个位置（A，B选项情况）<br>当第一趟元素确认位置不是最左或最右时，第二趟能确认2个位置（C选项情况）</p>
+<p>线索二叉树: </p>
 ]]></content>
       <categories>
         <category>数据结构</category>
@@ -1846,7 +1848,7 @@
 <blockquote>
 <p>TCP是如何建立连接的，画出TCP建立连接的过程图。</p>
 </blockquote>
-<p><img src="../myimages/../../public/myimages/三次握手0.png" alt="三次握手0"><br><img src="../myimages/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.jpg" alt="三次握手"></p>
+<p><img src="../myimages/三次握手0.png" alt="三次握手0"><br><img src="../myimages/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.jpg" alt="三次握手"></p>
 <p>SYN: 同步字段</p>
 <ul>
 <li>1: 表示建立连接的过程</li>
@@ -1862,7 +1864,7 @@
 <li>ROUND3: 客户端为该TCP连接<strong>分配缓存和变量</strong>, 并向服务器端返回确认的确认, 可以携带数据<code>ACK = 1, seq = x + 1, ack = y + 1(严格按照上一个seq = x的基础上 + 1)</code></li>
 </ul>
 <p>TCP连接释放的过程</p>
-<p><img src="../myimages/../../public/myimages/四次挥手0.png" alt="四次挥手0"><br><img src="../myimages/../../public/myimages/四次挥手.png" alt="四次挥手"></p>
+<p><img src="../public/myimages/四次挥手" alt="四次挥手0"><br><img src="../myimages/../../public/myimages/四次挥手.png" alt="四次挥手"></p>
 <p>FIN: 结束字段</p>
 <ul>
 <li>1: 释放连接</li>
