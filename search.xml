@@ -417,12 +417,6 @@
       </tags>
   </entry>
   <entry>
-    <title>图片测试</title>
-    <url>/posts/b211d196/</url>
-    <content><![CDATA[<p><img src="/posts/b211d196/CSMA_CD.png" alt="CSMA/CD"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>差分约束</title>
     <url>/posts/417dcd30/</url>
     <content><![CDATA[<h1 id="差分约束"><a href="#差分约束" class="headerlink" title="差分约束"></a>差分约束</h1><h2 id="时间复杂度："><a href="#时间复杂度：" class="headerlink" title="时间复杂度："></a>时间复杂度：</h2><ul>
