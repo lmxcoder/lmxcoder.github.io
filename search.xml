@@ -1404,7 +1404,7 @@
 <li>物理层: 主要实现接口的物理结构特性、电气特性和功能特性进行定义，<strong>用于连接传输介质</strong>，使高层不用关心介质的问题；传输单位是: <strong>比特(Bit)</strong></li>
 <li>数据链路层: 主要实现<strong>相邻节点</strong>的通信问题，使用MAC地址，传输单元是<strong>帧</strong>；</li>
 <li>网络层: 主要实现在<strong>不同的网络</strong>之间进行数据传输，进行路由，实现IP地址封装；传输单位: <strong>**分组</strong></li>
-<li>运输层: 实现<strong>进程之间的通信</strong>，使用端口地址；传输单位: <strong>报文段, 用户数据报</strong></li>
+<li>运输层: 实现<strong>两台主机进程之间的通信</strong>，使用端口地址；传输单位: <strong>报文段, 用户数据报</strong></li>
 <li>应用层: <strong>直接给用户提供服务</strong>，应用层协议的丰富程度决定网络提供给用户的功能。传输单位: <strong>报文</strong></li>
 </ol>
 <h1 id="第二章-物理层"><a href="#第二章-物理层" class="headerlink" title="第二章 物理层"></a>第二章 物理层</h1><p>设备:<br>物理层 : 中继器, 集线器<br>数据链路层 : 网桥, 交换机<br>网络层 : 路由器   </p>
@@ -1962,6 +1962,59 @@
 <li><p>frequent : adj. 经常性的, 频繁的</p>
 </li>
 <li>fluent : adj. 流利的, 流畅的</li>
+</ul>
+<h3 id="2023-7-3"><a href="#2023-7-3" class="headerlink" title="2023/7/3"></a>2023/7/3</h3><ul>
+<li>weird : adj. 古怪的, 奇异的</li>
+<li><p>待定</p>
+</li>
+<li><p>element : n. 元素, 基本部分</p>
+</li>
+<li><p>elegance : n. 优雅, 典雅</p>
+</li>
+<li><p>outcome : n. 结果</p>
+</li>
+<li><p>overcome : v. 克服</p>
+</li>
+<li><p>weave : v. 编, 织</p>
+</li>
+<li><p>wave : n. 波浪</p>
+</li>
+<li><p>reserve : v. 预定</p>
+</li>
+<li><p>reverse : v. 反装</p>
+</li>
+<li><p>tale : n. 故事</p>
+</li>
+<li><p>tail : n. 尾巴</p>
+</li>
+<li><p>process : n. 进程, 过程</p>
+</li>
+<li><p>possess : v. 拥有, 具有 -&gt; possession : n. 个人财产</p>
+</li>
+<li><p>precise : adj. 精确的</p>
+</li>
+<li><p>precious : adj. 珍贵的</p>
+</li>
+<li><p>interpret  : v. 解释, 说明</p>
+</li>
+<li><p>interact : v. 相互沟通, 相互作用</p>
+</li>
+<li><p>justify : v. 证明</p>
+</li>
+<li><p>justice : n. 公平, 正义</p>
+</li>
+<li><p>dairy : n. 乳制品</p>
+</li>
+<li><p>daily : adj. 每天的</p>
+</li>
+<li><p>punish : v. 处罚, 惩罚</p>
+</li>
+<li>publish : v. 出版</li>
+<li><p>polish : v. 擦光, 抛光</p>
+</li>
+<li><p>incident : n. 事件</p>
+</li>
+<li>accident : n. 事故</li>
 </ul>
 ]]></content>
       <categories>
