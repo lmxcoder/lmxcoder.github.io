@@ -2676,4 +2676,10 @@
         <tag>英语单词</tag>
       </tags>
   </entry>
+  <entry>
+    <title>计算机组成期末复习</title>
+    <url>/posts/84dd234b/</url>
+    <content><![CDATA[<p>CPU中的主要寄存器：有六类寄存器：<strong>指令寄存器（IR）</strong>、<strong>程序计数器（PC）</strong>、地址寄存器（AR）、数据寄存器（DR）、累加寄存器（AC）、程序状态字寄存器（PSW）<br>文章源地址：<a href="https://blog.csdn.net/weibo1230123/article/details/83106141">https://blog.csdn.net/weibo1230123/article/details/83106141</a></p>
+]]></content>
+  </entry>
 </search>
