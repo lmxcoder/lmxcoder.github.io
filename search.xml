@@ -2680,6 +2680,13 @@
     <title>计算机组成期末复习</title>
     <url>/posts/84dd234b/</url>
     <content><![CDATA[<p>CPU中的主要寄存器：有六类寄存器：<strong>指令寄存器（IR）</strong>、<strong>程序计数器（PC）</strong>、地址寄存器（AR）、数据寄存器（DR）、累加寄存器（AC）、程序状态字寄存器（PSW）<br>文章源地址：<a href="https://blog.csdn.net/weibo1230123/article/details/83106141">https://blog.csdn.net/weibo1230123/article/details/83106141</a></p>
+<p>从内存获取1个数据，对于CPU来说，是（读）操作。<br>向内存发出1个数据，对于CPU来说，是（写）操作。<br>某CPU是16位，则可以认为CPU内部，（ 通用寄存器 ）由16bit组成</p>
+<p>系统总线中，数据总线是（  ），地址总线是（ ），控制总线是（ ）<br>B. 双向，单项，双向</p>
+<p>控制总线包括：（  ）。<br>C. RD   WR  中断</p>
+<p>CPU在1个操作（周期）时间对（   ）个内存单元进行（  ）种操作。<br>D. 1，1</p>
+<blockquote>
+<p>溢出状态标志位 OF (overflow flag) 如何判断:<br>OF = D(7ADD) ⊕(异或) D(6ADD) = 最高位的进位状态 xor 次高位的进位状态<br>注意：从最低为开始计算，最高位 = 1项 + 2项 + 进位</p>
+</blockquote>
 ]]></content>
   </entry>
 </search>
