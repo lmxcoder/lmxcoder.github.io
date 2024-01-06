@@ -2689,4 +2689,10 @@
 </blockquote>
 ]]></content>
   </entry>
+  <entry>
+    <title>微机原理期末复习</title>
+    <url>/posts/ab3cce43/</url>
+    <content><![CDATA[<p>CS 、IP存相对地址<br>把CS和IP相加的20位地址形成当前指令的物理地址。<br>IP = (物理地址 - CS * 10) / 10 </p>
+]]></content>
+  </entry>
 </search>
