@@ -2679,7 +2679,12 @@
   <entry>
     <title>计算机组成期末复习</title>
     <url>/posts/84dd234b/</url>
-    <content><![CDATA[<p>CPU中的主要寄存器：有六类寄存器：<strong>指令寄存器（IR）</strong>、<strong>程序计数器（PC）</strong>、地址寄存器（AR）、数据寄存器（DR）、累加寄存器（AC）、程序状态字寄存器（PSW）<br>文章源地址：<a href="https://blog.csdn.net/weibo1230123/article/details/83106141">https://blog.csdn.net/weibo1230123/article/details/83106141</a></p>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>微机原理期末复习</title>
+    <url>/posts/ab3cce43/</url>
+    <content><![CDATA[<h1 id="第一章-微型计算机概述"><a href="#第一章-微型计算机概述" class="headerlink" title="第一章 微型计算机概述"></a>第一章 微型计算机概述</h1><p>CPU中的主要寄存器：有六类寄存器：<strong>指令寄存器（IR）</strong>、<strong>程序计数器（PC）</strong>、地址寄存器（AR）、数据寄存器（DR）、累加寄存器（AC）、程序状态字寄存器（PSW）<br>文章源地址：<a href="https://blog.csdn.net/weibo1230123/article/details/83106141">https://blog.csdn.net/weibo1230123/article/details/83106141</a></p>
 <p>从内存获取1个数据，对于CPU来说，是（读）操作。<br>向内存发出1个数据，对于CPU来说，是（写）操作。<br>某CPU是16位，则可以认为CPU内部，（ 通用寄存器 ）由16bit组成</p>
 <p>系统总线中，数据总线是（  ），地址总线是（ ），控制总线是（ ）<br>B. 双向，单项，双向</p>
 <p>控制总线包括：（  ）。<br>C. RD   WR  中断</p>
@@ -2687,12 +2692,25 @@
 <blockquote>
 <p>溢出状态标志位 OF (overflow flag) 如何判断:<br>OF = D(7ADD) ⊕(异或) D(6ADD) = 最高位的进位状态 xor 次高位的进位状态<br>注意：从最低为开始计算，最高位 = 1项 + 2项 + 进位</p>
 </blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>微机原理期末复习</title>
-    <url>/posts/ab3cce43/</url>
-    <content><![CDATA[<p>CS 、IP存相对地址<br>把CS和IP相加的20位地址形成当前指令的物理地址。<br>IP = (物理地址 - CS * 10) / 10 </p>
+<h1 id="第二章-8086-8088微处理器"><a href="#第二章-8086-8088微处理器" class="headerlink" title="第二章 8086/8088微处理器"></a>第二章 8086/8088微处理器</h1><p>CS 、IP存相对地址<br>把CS和IP相加的20位地址形成当前指令的物理地址。<br>IP = (物理地址 - CS * 10) / 10 </p>
+<p>段：物理地址 = 段地址×16 + 偏移地址</p>
+<ol>
+<li>由于存储器为16位，<strong>偏移地址的大小必须在2^16=64K内</strong>。因此，对地址进行分段时，每个逻辑段的大小不能超过64K</li>
+<li>段不能起始于任意位置，<strong>必须起始于能被16整除的地址</strong>，这样才能保证段起始地址（即段地址）的最低四位为0。因此，20位的段起始地址可被缩短为16位。</li>
+</ol>
+<p>8086管脚CLK的功能是 输入时钟信号     </p>
+<p>IF位(Interrupt flag) 对（可屏蔽中断）有作用。</p>
+<p>BHE有效，说明（ ）。A. 使用数据线的高8位<br>A0有效，  使用低8位</p>
+<p>1秒(s) ＝1000毫秒(ms)<br>1毫秒(ms)＝1000微秒 (us)<br>1微秒(us)＝1000纳秒 (ns)<br>1纳秒(ns)＝1000皮秒 (ps)</p>
+<p>CPU读或者写一次内存单元需要的时间是（   ）。C. 总线周期</p>
+<p>基本总线周期由四个时钟周期组成</p>
+<p>无论读或者写，在T2，8086发出（   ）。C. RD或者WR</p>
+<p>时序图, T2数据开始，写信号，WRITE。<br>T3数据开始，读信号，READ。</p>
+<p>BIU 和 EU 并行但不同时工作</p>
+<h1 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h1><p>单一标志位<br>JZ/JE    Jump on Zero/Equal<br>JNZ/JNE    Jump on Not Zero/Equal<br>JS    Jump on Sign<br>JNS    Jump on Not Sign<br>JP/JPE    Jump on Parity/Parity Even<br>JNP/JPO    Jump on Not Parity/Parity Odd<br>JO    Jump on Overflow<br>JNO    Jump on Not Overflow<br>JC                                 Jump on Carry<br>JNC                             Jump on Not Carry<br>多标志位比较，无符号数<br>JNBE/JA    Jump on Not Below or Equal/Above<br>JNB/JAE    Not Below/Above or Equal<br>JB/JNAE    Below/Not Above or Equal<br>JBE/JNA    Jump on Below or Equal/Not Above</p>
+<p>多标志位比较，有符号数<br>JNLE/JG    Jump on Not Less or Equal/Greater<br>JNL/JGE    Jump on Not Less/Greater or Equal<br>JL/JNGE    Jump on Less/Not Greater or Equal<br>JLE/JNG    Jump on Less or Equal/Not Greater</p>
+<p>[偏移地址] : 寄存器中的偏移地址<br>(寄存器 / 地址) ： 取相应位置的内容（数据）</p>
+<p>LDS reg, src<br>reg:16位通用寄存器   src:存储器操作数<br>功能：从src指定的存储单元开始，由4个连续存储单元中取出前2字节送到reg，取出后2字节送到DS中</p>
 ]]></content>
   </entry>
 </search>
