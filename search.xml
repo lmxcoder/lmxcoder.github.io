@@ -2707,10 +2707,25 @@
 <p>无论读或者写，在T2，8086发出（   ）。C. RD或者WR</p>
 <p>时序图, T2数据开始，写信号，WRITE。<br>T3数据开始，读信号，READ。</p>
 <p>BIU 和 EU 并行但不同时工作</p>
-<h1 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h1><p>单一标志位<br>JZ/JE    Jump on Zero/Equal<br>JNZ/JNE    Jump on Not Zero/Equal<br>JS    Jump on Sign<br>JNS    Jump on Not Sign<br>JP/JPE    Jump on Parity/Parity Even<br>JNP/JPO    Jump on Not Parity/Parity Odd<br>JO    Jump on Overflow<br>JNO    Jump on Not Overflow<br>JC                                 Jump on Carry<br>JNC                             Jump on Not Carry<br>多标志位比较，无符号数<br>JNBE/JA    Jump on Not Below or Equal/Above<br>JNB/JAE    Not Below/Above or Equal<br>JB/JNAE    Below/Not Above or Equal<br>JBE/JNA    Jump on Below or Equal/Not Above</p>
-<p>多标志位比较，有符号数<br>JNLE/JG    Jump on Not Less or Equal/Greater<br>JNL/JGE    Jump on Not Less/Greater or Equal<br>JL/JNGE    Jump on Less/Not Greater or Equal<br>JLE/JNG    Jump on Less or Equal/Not Greater</p>
-<p>[偏移地址] : 寄存器中的偏移地址<br>(寄存器 / 地址) ： 取相应位置的内容（数据）</p>
-<p>LDS reg, src<br>reg:16位通用寄存器   src:存储器操作数<br>功能：从src指定的存储单元开始，由4个连续存储单元中取出前2字节送到reg，取出后2字节送到DS中</p>
+<h1 id="第三章-指令系统"><a href="#第三章-指令系统" class="headerlink" title="第三章 指令系统"></a>第三章 指令系统</h1><h2 id="跳转指令"><a href="#跳转指令" class="headerlink" title="跳转指令"></a>跳转指令</h2><p>单一标志位<br>JZ/JE    Jump on Zero/Equal<br>JNZ/JNE    Jump on Not Zero/Equal<br>JS    Jump on Sign<br>JNS    Jump on Not Sign<br>JP/JPE    Jump on Parity/Parity Even<br>JNP/JPO    Jump on Not Parity/Parity Odd<br>JO    Jump on Overflow<br>JNO    Jump on Not Overflow<br>JC                                 Jump on Carry<br>JNC                             Jump on Not Carry<br>多标志位比较，无符号数<br>JNBE/JA    Jump on Not Below or Equal/Above<br>JNB/JAE    Not Below/Above or Equal<br>JB/JNAE    Below/Not Above or Equal<br>JBE/JNA    Jump on Below or Equal/Not Above<br>多标志位比较，有符号数 （转化为2进制，化为有符号数再进行比较）<br>JNLE/JG    Jump on Not Less or Equal/Greater<br>JNL/JGE    Jump on Not Less/Greater or Equal<br>JL/JNGE    Jump on Less/Not Greater or Equal<br>JLE/JNG    Jump on Less or Equal/Not Greater</p>
+<h2 id="与"><a href="#与" class="headerlink" title="[] 与 ()"></a>[] 与 ()</h2><p>[偏移地址] : 寄存器中的偏移地址<br>(寄存器 / 地址) ： 取相应位置的内容（数据）</p>
+<h2 id="LDS"><a href="#LDS" class="headerlink" title="LDS"></a>LDS</h2><p>LDS reg, src<br>reg:16位通用寄存器   src:存储器操作数<br>功能：从src指定的存储单元开始，由4个连续存储单元中取出前2字节送到reg，取出后2字节送到DS中</p>
+<h2 id="XCHG"><a href="#XCHG" class="headerlink" title="XCHG"></a>XCHG</h2><p>把两个地方的数据进行互换<br>XCHG reg    ,  reg/mem；     reg &lt;-&gt; reg/mem<br>寄存器与寄存器之间交换数据<br>寄存器与存储器之间交换数据<br>不能在存储器与存储器之间对换数据<br>段寄存器不能参加交换</p>
+<h2 id="段的默认："><a href="#段的默认：" class="headerlink" title="段的默认："></a>段的默认：</h2><ol>
+<li>数据段的段寄存器默认为DS</li>
+<li>CS: IP</li>
+<li>SS: SP, BP</li>
+<li>DS: BX, SI, PI</li>
+</ol>
+<h1 id="第四章-汇编语言"><a href="#第四章-汇编语言" class="headerlink" title="第四章 汇编语言"></a>第四章 汇编语言</h1><h2 id="汇编框架"><a href="#汇编框架" class="headerlink" title="汇编框架"></a>汇编框架</h2><p>datas segment<br>    ;数据段代码<br>datas ends</p>
+<p>stacks segment<br>    ;堆栈段代码<br>stack ends</p>
+<p>codes segment<br>main proc far ; 主程序开始的位置<br>    assume cs: code, ds: data, es: data<br>start:<br>main endp<br>codes ends<br>    end start</p>
+<h1 id="第四章-汇编指令"><a href="#第四章-汇编指令" class="headerlink" title="第四章 汇编指令"></a>第四章 汇编指令</h1><h1 id="第五章-存储器系统"><a href="#第五章-存储器系统" class="headerlink" title="第五章 存储器系统"></a>第五章 存储器系统</h1><blockquote>
+<p>概念较多，好好背背</p>
+</blockquote>
+<h2 id="存储器扩展"><a href="#存储器扩展" class="headerlink" title="存储器扩展"></a>存储器扩展</h2><p>SRAM芯片 1K x 8 : 字 x 位<br>字扩展 与 位扩展</p>
+<h2 id="高位片选芯片，低位选单元"><a href="#高位片选芯片，低位选单元" class="headerlink" title="高位片选芯片，低位选单元"></a>高位片选芯片，低位选单元</h2><p>通常，设计电路时，使用系统地址总线的（  低  ）地址选择芯片内部某个单元，（  高  ）地址选择某个芯片。</p>
+<h2 id="计算末地址"><a href="#计算末地址" class="headerlink" title="计算末地址"></a>计算末地址</h2><p>存储系统以字节编址。某SRAM芯片的容量是4K✖8，占用的首地址是2000H，则末地址是（ ）。<br> 4K x 8 位 = 4 * 1024 字节 （ 1 字节 = 8 位）<br>           = 2^12 B = 1000H<br>           -1 = FFFH<br> 2000H + FFFH = 2FFFH</p>
 ]]></content>
   </entry>
 </search>
